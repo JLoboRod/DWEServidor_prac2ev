@@ -1,5 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//Esto lo hacemos para variar la configuración de rutas y datos de la conexión
+//a base de datos en función de si estamos en servidor local o servidor remoto
+define('MODO_LOCAL', TRUE);
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -14,8 +18,14 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
 
+//Ruta base en función de si estamos en servidor local o en servidor remoto
+if(MODO_LOCAL){
+    $config['base_url']	= '';
+}
+else{
+    $config['base_url']= 'http://iessansebastian.com/alumnos/2daw1415/joaquin/DWEServidor_prac2ev';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
