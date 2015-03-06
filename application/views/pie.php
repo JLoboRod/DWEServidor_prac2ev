@@ -1,5 +1,5 @@
-<footer class="navbar navbar-fixed-bottom pie">
+<footer class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-        <p class="navbar-text text-muted">Autor: Joaquín Lobo Rodríguez</p>
+        <p class="navbar-text text-muted pull-right">Autor: Joaquín Lobo Rodríguez</p>
     </div>
 </footer>

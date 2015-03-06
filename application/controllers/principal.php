@@ -16,5 +16,7 @@ class Principal extends CI_Controller {
         $data['html_pie'] = $this->load->view('pie', 0, TRUE);
         $this->load->view('plantilla', $data);
     }
+    
+    
 }
 

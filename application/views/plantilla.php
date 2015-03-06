@@ -8,11 +8,10 @@
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/estilos.css'); ?>">
     </head>
     <body>
-        <div class="container col-md-12 col-xs-12 col-sm-12"
-        <?= $html_encabezado ?>
         <div class="container">
+            <?= $html_encabezado ?>
             <?= $html_cuerpo ?>
-        <?= $html_pie ?>
+            <?= $html_pie ?>
         </div>
     </body>
     <script src="<?= base_url('/assets/js/jquery.min.js') ?>"></script>

@@ -9,30 +9,44 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="<?= base_url('index.php') ?>">Tienda Online</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="<?= base_url('index.php') ?>">About</a></li>
-                <li><a href="#">Contact</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categorías <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Categoría 1</a></li>
+                        <li><a href="#">Categoría 2</a></li>
+                        <li><a href="#">Categoría 3</a></li>
                         <li class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li class="dropdown-header">Más Categorías</li>
+                        <li><a href="#">Categoría 4</a></li>
+                        <li><a href="#">Categoría 5</a></li>
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <div class="pull-right">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Buscar..." name="busqueda">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>        
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                <li><a href="">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        <span class="badge cod-envio pull-right">2</span>
+                    </a>
+
+                </li>
+                <li><a href="<?= base_url('index.php') ?>">Acceder/Registro</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
