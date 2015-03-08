@@ -1,4 +1,4 @@
-<h3><?=isset($titulo_cuerpo)?$titulo_cuerpo:''?></h3>
+<h2><?=isset($titulo_cuerpo)?$titulo_cuerpo:''?></h2>
 <p>
 	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis sit ducimus dicta reiciendis odit mollitia accusamus dolore distinctio nostrum alias, possimus, eligendi illum autem non officia. Alias obcaecati vitae nisi.</span>
 	<span>Architecto soluta et dolorem laborum, quaerat aliquam magni repellendus perspiciatis officiis tenetur a enim consectetur, tempore facere autem. Repudiandae tenetur minima maxime nesciunt, consequuntur hic odit explicabo aperiam itaque adipisci.</span>

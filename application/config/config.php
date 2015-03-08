@@ -79,7 +79,9 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+//$config['language']	= 'english';
+$config['language']	= 'spanish'; //Hemos creado el directorio spanish en 
+//languages con los archivos necesarios
 
 /*
 |--------------------------------------------------------------------------
@@ -116,7 +118,7 @@ $config['enable_hooks'] = FALSE;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'MY_';
+$config['subclass_prefix'] = 'my_';
 
 
 /*
@@ -234,7 +236,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'practica2ev';
 
 /*
 |--------------------------------------------------------------------------

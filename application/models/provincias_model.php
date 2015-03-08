@@ -22,14 +22,19 @@ class Provincias_model extends CI_Model {
             return '';
     }
     
+      
     /**
      * Devuelve la lista de las provincias
+     * indizadas por su id
      * @return array
      */
     function listar_provincias(){
         $query = $this->db->get('provincia');
-        
-        return $query->result_array();    
+        $lp = [];
+        foreach ($query->result_array() as $row) {
+            $lp[$row['id']] = $row['nombre'];
+        }
+        return $lp;    
     }
 }
 
