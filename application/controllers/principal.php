@@ -1,13 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Principal extends CI_Controller {
+class Principal extends My_Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->load->model('productos_model');
     }
     
     function index(){
-        redirect(base_url('index.php/clientes/registrar'), 'refresh');        
+        //redirect(base_url('index.php/clientes/registrar'), 'refresh');        
+        $this->mostrar_destacados();
+        //$anuncio = $this->load->view('anuncio', 0, TRUE);
+        //$this->plantilla($anuncio);
     }
 
     private function prueba_form_reg(){
@@ -34,7 +38,14 @@ class Principal extends CI_Controller {
     }
     
     function mostrar_destacados(){
-        
+        $productos = $this->productos_model->buscar_productos(array('destacado' => '1'));
+
+        $anuncio = $this->load->view('anuncio', 0, TRUE);
+        $lista = $this->load->view('lista_productos', array(
+            'productos' => $productos
+            ), TRUE);
+
+        $this->plantilla($anuncio.$lista);   
     }
     
     

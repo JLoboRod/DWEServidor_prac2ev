@@ -43,7 +43,7 @@
     </div>
     <div class="form-group <?=(isset($clase_campo_form['provincia']))?$clase_campo_form['provincia']:''?>">
         <label class="control-label" for="provincia">Provincia</label>
-        <?=form_dropdown('provincia', $provincias, set_value('provincia'));?>
+        <?=form_dropdown('provincia', $provincias, set_value('provincia'), 'class="form-control"');?>
         <span class="help-block"><?= form_error('provincia') ?></span>
     </div>
     <button type="submit" class="btn btn-default">Enviar</button>

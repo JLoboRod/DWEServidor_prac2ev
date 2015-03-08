@@ -11,7 +11,7 @@
     <div class="container">
         <?= $encabezado ?>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2 col-xs-12">
+            <div class="col-md-10 col-md-offset-1 col-xs-12">
                 <?= $cuerpo ?>
             </div>
         </div>
