@@ -13,7 +13,10 @@ class Clientes extends CI_Controller {
 
     }
 
-
+    /**
+     * Acceso a la aplicación
+     * @return [type] [description]
+     */
     function acceder(){
 
         //Seteamos reglas de validación para el login
@@ -25,15 +28,12 @@ class Clientes extends CI_Controller {
             $usuario = $this->input->post('usuario');
             $password = $this->input->post('password');
 
-            
-            
             if($this->login_correcto($usuario, $password))
             {       
                 //Añade usuario a la session
                 $this->session->set_userdata('usuario', $usuario);
                 
-                redirect(base_url('index.php'));
-                
+                redirect(base_url('index.php'));                
             }
             else
             {
@@ -50,7 +50,6 @@ class Clientes extends CI_Controller {
         else
         {
             
-
             $clases_form = array(
             'usuario'   => form_error('usuario')? 'has-error':'',
             'password'  => form_error('password')? 'has-error':''
@@ -158,6 +157,10 @@ class Clientes extends CI_Controller {
 
     }
 
+    /**
+     * Salir de la aplicación
+     * @return [type] [description]
+     */
     function salir(){
         $this->session->unset_userdata('usuario');
         redirect(base_url('index.php'));
@@ -210,18 +213,35 @@ class Clientes extends CI_Controller {
         return TRUE;
     }
 
+    /**
+     * Comprueba si el usuario existe
+     * @param  [type] $usuario [description]
+     * @return [type]          [description]
+     */
     function existe_usuario($usuario){
         return count($this->clientes_model->buscar_clientes(array(
             'usuario' => $usuario
             )))>0;
     }
 
+    /**
+     * Comprueba si el email existe
+     * @param  [type] $email [description]
+     * @return [type]        [description]
+     */
     function existe_email($email){
         return count($this->clientes_model->buscar_clientes(array(
             'email' => $email
             )))>0;
     }
 
+    /**
+     * Comprueba si hay algún usuario con
+     * ese usuario y password
+     * @param  [type] $user [description]
+     * @param  [type] $pass [description]
+     * @return [type]       [description]
+     */
     function login_correcto($user, $pass){
         return count($this->clientes_model->buscar_clientes(array(
             'usuario' => $user,

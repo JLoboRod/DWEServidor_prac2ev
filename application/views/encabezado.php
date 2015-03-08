@@ -52,10 +52,20 @@
                 <li><a href="<?= base_url('index.php/clientes/acceder') ?>">Acceder</a></li>
                 <li><a href="<?= base_url('index.php/clientes/registrar') ?>">Registro</a></li>
             <?php else :?>
-                <li>
-                    <i class="glyphicon glyphicon-default-user"></i>
-                    <span class="navbar-text"><strong><?=$this->session->userdata('usuario')?></strong></span>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><strong><?=$this->session->userdata('usuario')?></strong><span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="<?=base_url('index.php/clientes/editar_info_cliente')?>">Editar información</a></li>
+                        
+                        <li><a href="<?=base_url('index.php/clientes/dar_baja_cliente')?>">Darse de baja</a></li>
+                        
+                        <li><a href="#">Ver pedidos</a></li>
+                        
+                        <li><a href="#">Cancelar pedido</a></li>
+                    </ul>
                 </li>
+
                 <li>
                     <a href="<?= base_url('index.php/clientes/salir') ?>">
                         <i class="glyphicon glyphicon-log-out"></i>
