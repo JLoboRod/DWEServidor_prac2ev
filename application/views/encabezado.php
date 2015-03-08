@@ -17,11 +17,6 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categorías <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        
-                        
-                        
-                        
-                        
                         <li><a href="#">Categoría 1</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Categoría 2</a></li>
@@ -48,13 +43,28 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>
-                        <span class="badge cod-envio pull-right">2</span>
-                    </a>
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    <span class="badge cod-envio pull-right">2</span>
+                </a>
 
+            </li>
+            <?php if(!$this->session->userdata('usuario')) :?>
+                <li><a href="<?= base_url('index.php/clientes/acceder') ?>">Acceder</a></li>
+                <li><a href="<?= base_url('index.php/clientes/registrar') ?>">Registro</a></li>
+            <?php else :?>
+                <li>
+                    <i class="glyphicon glyphicon-default-user"></i>
+                    <span class="navbar-text"><strong><?=$this->session->userdata('usuario')?></strong></span>
                 </li>
-                <li><a href="<?= base_url('index.php') ?>">Acceder/Registro</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
+                <li>
+                    <a href="<?= base_url('index.php/clientes/salir') ?>">
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        Salir
+                    </a>
+                </li>
+            <?php endif;?>
+
+        </ul>
+    </div><!--/.nav-collapse -->
+</div><!--/.container -->
 </nav>

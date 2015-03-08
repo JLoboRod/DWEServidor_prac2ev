@@ -7,18 +7,73 @@ class Clientes extends CI_Controller {
         parent::__construct();
         $this->load->model('clientes_model');
         $this->load->model('provincias_model');
-        $this->load->helper('filtrado');
     }
     
     function index(){
 
     }
-    
+
+
+    function acceder(){
+
+        //Seteamos reglas de validación para el login
+        $this->form_validation->set_rules('usuario', 'Usuario', 'required|min_length[3]|max_length[45]|trim|xss_clean');
+        $this->form_validation->set_rules('password', 'Contraseña', 'trim|required|md5');
+        
+        if ($this->form_validation->run() == TRUE)
+        {
+            $usuario = $this->input->post('usuario');
+            $password = $this->input->post('password');
+
+            
+            
+            if($this->login_correcto($usuario, $password))
+            {       
+                //Añade usuario a la session
+                $this->session->set_userdata('usuario', $usuario);
+                
+                redirect(base_url('index.php'));
+                
+            }
+            else
+            {
+                $formulario = $this->load->view('formulario_acceso', 0, TRUE);
+
+                $mensaje = $this->load->view('mensaje_error', array(
+                    'mensaje' => 'Datos erróneos. Por favor, inténtelo otra vez.' 
+                ), TRUE);
+     
+                    
+                $this->plantilla($mensaje.$formulario);
+            }
+        }
+        else
+        {
+            
+
+            $clases_form = array(
+            'usuario'   => form_error('usuario')? 'has-error':'',
+            'password'  => form_error('password')? 'has-error':''
+            );
+
+            $formulario = $this->load->view('formulario_acceso', array(
+                'clase_campo_form' => $clases_form
+                ), TRUE);
+            
+            $this->plantilla($formulario);
+        }
+    }
+
+
+    /**
+     * Registro de cliente
+     * @return [type] [description]
+     */
     function registrar(){
 
         $provincias = $this->provincias_model->listar_provincias();
         
-        //Validamos
+        //Reglas de validación
         //name del campo, titulo, restricciones
         $this->form_validation->set_rules('usuario', 'Usuario', 'required|min_length[3]|max_length[45]|trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
@@ -34,10 +89,9 @@ class Clientes extends CI_Controller {
         //%s es el nombre del campo que tiene errores
         $this->form_validation->set_message('valid_dni', 'El Dni introducido no es válido');
         
-        
         if($this->form_validation->run() === TRUE){
             if($this->existe_usuario($this->input->post('usuario'))){
-                $formulario = $this->load->view('formulario_registro', Array(
+                $formulario = $this->load->view('formulario_registro', array(
                     'provincias' => $provincias
                     ), TRUE);
                 $mensaje = $this->load->view('mensaje_error', array(
@@ -47,7 +101,7 @@ class Clientes extends CI_Controller {
             }
 
             else if($this->existe_email($this->input->post('email'))){
-                $formulario = $this->load->view('formulario_registro', Array(
+                $formulario = $this->load->view('formulario_registro', array(
                     'provincias' => $provincias
                     ), TRUE);
                 $mensaje = $this->load->view('mensaje_error', array(
@@ -56,7 +110,7 @@ class Clientes extends CI_Controller {
                 $this->plantilla($mensaje.$formulario);
             }
             else{
-            //Procedemos a crear el cliente
+                //Procedemos a crear el cliente
                 $datos['usuario'] = $this->input->post('usuario');
                 $datos['password'] = $this->input->post('password');
                 $datos['email'] = $this->input->post('email');
@@ -70,20 +124,46 @@ class Clientes extends CI_Controller {
                 $this->clientes_model->crear_cliente($datos);
 
                 $mensaje = $this->load->view('mensaje_exito', array(
-                    'mensaje' => 'Registro realizado'
-                    ));
+                    'mensaje' => 'Registro realizado con éxito. Ahora ya puede acceder con su usuario y password.'
+                    ), TRUE);
+
+                $this->plantilla($mensaje);
             }
         }
         else{
 
+            //Esto lo hacemos para dar clases Bootstrap a los 
+            //campos del formulario según haya error o no
+            $clases_form = array(
+            'usuario'   => form_error('usuario')? 'has-error':'',
+            'password'  => form_error('password')? 'has-error':'', 
+            'email'     => form_error('email')? 'has-error':'',
+            'nombre'    => form_error('nombre')? 'has-error':'',
+            'apellidos' => form_error('apellidos')? 'has-error':'',
+            'dni'       => form_error('dni')? 'has-error':'',
+            'direccion' => form_error('direccion')? 'has-error':'',
+            'cod_postal'=> form_error('cod_postal')? 'has-error':'',
+            'provincia' => form_error('provincia')? 'has-error':''
+
+            );
+
             $formulario = $this->load->view('formulario_registro', array(
-                'provincias' => $provincias
+                'provincias' => $provincias, 
+                'clase_campo_form' => $clases_form
                 ), TRUE);
             
             $this->plantilla($formulario);
         }
 
+
     }
+
+    function salir(){
+        $this->session->unset_userdata('usuario');
+        redirect(base_url('index.php'));
+    }
+
+
 
     /**
      * Carga la plantilla html (encabezado, menu, cuerpo y pie).
@@ -91,18 +171,8 @@ class Clientes extends CI_Controller {
      */
     protected function plantilla($cuerpo)
     {
-        if(isset($this->session->userdata['valido']))
-        {
-            $sesion = $this->session->userdata['valido'];
-            
-            //Carga del encabezado
-            $encabezado = $this->load->view('encabezado', $sesion, TRUE);
-        }
-        else 
-        {
-            //Carga del encabezado
-            $encabezado = $this->load->view('encabezado', '', TRUE);
-        }
+        //Carga del encabezado
+        $encabezado = $this->load->view('encabezado', '', TRUE);
         $pie = $this->load->view('pie', 0, TRUE);
         
         //Creo una plantilla con los apartados a mostrar
@@ -149,6 +219,13 @@ class Clientes extends CI_Controller {
     function existe_email($email){
         return count($this->clientes_model->buscar_clientes(array(
             'email' => $email
+            )))>0;
+    }
+
+    function login_correcto($user, $pass){
+        return count($this->clientes_model->buscar_clientes(array(
+            'usuario' => $user,
+            'password' => $pass 
             )))>0;
     }
     
