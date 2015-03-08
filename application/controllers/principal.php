@@ -1,52 +1,108 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Principal extends My_Controller {
+
     
+
     public function __construct() {
         parent::__construct();
         $this->load->model('productos_model');
+        $this->load->model('categorias_model');
     }
     
-    function index(){
-        //redirect(base_url('index.php/clientes/registrar'), 'refresh');        
-        $this->mostrar_destacados();
-        //$anuncio = $this->load->view('anuncio', 0, TRUE);
-        //$this->plantilla($anuncio);
+
+    function index($pag = 0){ //Especificamos la página para la paginación
+        $this->mostrar_destacados($pag);
     }
 
-    private function prueba_form_reg(){
-        $data['encabezado'] = $this->load->view('encabezado', 0, TRUE);
-        $data['provincias'] = $this->provincias_model->listar_nombres_provincias();
-        $data['cuerpo'] = $this->load->view('formulario_registro', $data, TRUE);
-        $data['pie'] = $this->load->view('pie', 0, TRUE);
-        $this->load->view('plantilla', $data);
-    } 
-
-    private function prueba_plantilla(){
+    /**
+     * Muestra los productos destacados
+     * @param  integer $pag [description]
+     * @return [type]       [description]
+     */
+    function mostrar_destacados($pag = 0){
+        $productos = $this->productos_model->listar_destacados($pag);
+        $productos = $this->nombrar_categorias($productos);
+        $datos = "<h1>Productos destacados</h1>";
+        $anuncio = $this->load->view('anuncio', array(
+            'datos_anuncio' => $datos
+            ), TRUE);
+        $paginador = $this->paginacion(site_url("principal/index/"), $this->productos_model->num_productos_destacados(), 3);
         
-        
-        $data['titulo'] = 'Principal';
-        $data['titulo_cuerpo'] = 'Párrafo Lorem Ipsum';
-        $data['html_encabezado'] = $this->load->view('encabezado', 0, TRUE);
-        $data['html_menu'] = $this->load->view('menu', 0, TRUE);
-        $data['html_cuerpo'] = $this->load->view('anuncio', 0, TRUE);
-        $data['html_cuerpo'] .=$this->load->view('cuerpo', $data, TRUE);
-        $data['html_pie'] = $this->load->view('pie', 0, TRUE);
-        $this->load->view('plantilla', $data);
-        
-
-    }
-    
-    function mostrar_destacados(){
-        $productos = $this->productos_model->buscar_productos(array('destacado' => '1'));
-
-        $anuncio = $this->load->view('anuncio', 0, TRUE);
         $lista = $this->load->view('lista_productos', array(
             'productos' => $productos
             ), TRUE);
-
-        $this->plantilla($anuncio.$lista);   
+        $this->plantilla($anuncio.$paginador.$lista);   
     }
+
+
+    /**
+     * Muestra los productos de una categoría
+     * @param  [type] $cat [description]
+     * @return [type]      [description]
+     */
+    function mostrar_productos_categoria($cat){
+        $datos_categoria = $this->categorias_model->buscar_categoria(array('nombre' => urldecode($cat)));
+
+        if($datos_categoria){
+            $productos = $this->productos_model->buscar_productos(array('categoria_id' => $datos_categoria['id']));
+            $productos = $this->nombrar_categorias($productos);
+            $anuncio = $this->load->view('anuncio', array('datos_anuncio' => $datos_categoria['anuncio']), TRUE);
+            $lista = $this->load->view('lista_productos', array(
+                'productos' => $productos
+                ), TRUE);
+
+            $this->plantilla($anuncio.$lista);   
+        }
+        else{
+            $this->plantilla($this->load->view('mensaje', array(
+                'mensaje' => 'Categoría no disponible'
+                ), TRUE));
+        }  
+    }
+
+    /**
+     * Trata la búsqueda de productos
+     * @return [type] [description]
+     */
+    function buscar_productos(){
+
+        if($this->input->post('busqueda')){
+            $productos = $this->productos_model->buscar_productos(array('nombre' => $this->input->post('busqueda')));
+            if($productos){
+               $productos = $this->nombrar_categorias($productos);
+
+               $lista = $this->load->view('lista_productos', array(
+                'productos' => $productos
+                ), TRUE);
+
+               $this->plantilla($lista); 
+           }
+           else{
+            $this->plantilla($this->load->view('mensaje', array(
+                'mensaje' => 'No se encontraron resultados'
+                ), TRUE));
+            }
+
+        }
+    }
+
+    /**
+     * Añade el nombre de categoría a una lista
+     * de productos
+     * @param  [type] $prods [description]
+     * @return [type]        [description]
+     */
+    private function nombrar_categorias($prods){
+
+        for ($i=0; $i < count($prods) ; $i++) { 
+            $prods[$i]['categoria'] = $this->categorias_model->nombre_categoria($prods[$i]['categoria_id']);
+        }
+
+        return $prods;
+    }
+
+
     
     
     

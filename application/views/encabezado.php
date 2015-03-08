@@ -9,17 +9,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?= base_url('index.php') ?>">Tienda Online</a>
+            <a class="navbar-brand" href="<?= base_url() ?>">Tienda Online</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li><a href="<?=base_url()?>">Home</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categorías <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <?php if(isset($categorias)):?>
                         <?php foreach($categorias as $categoria):?>
-                            <li><a href="<?=base_url('index.php')?>"><?=$categoria['nombre']?></a></li>
+                            <li><a href="<?=urldecode(base_url('index.php/principal/mostrar_productos_categoria/'.$categoria['nombre']))?>"><?=$categoria['nombre']?></a></li>
                         <?php endforeach;?>
                         <?php endif;?>
                     </ul>
@@ -27,11 +27,11 @@
             </ul>
             <ul class="nav navbar-nav">
                 <div class="pull-right">
-                    <form class="navbar-form" role="search">
+                    <form class="navbar-form" role="search" action="<?=base_url('index.php/principal/buscar_productos')?>" method="post">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Buscar..." name="busqueda">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            <div class="input-group-btn" type="submit">
+                                <button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
                         </div>
                     </form>

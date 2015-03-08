@@ -44,10 +44,10 @@ class Categorias_model extends CI_Model {
      * @param type $datos
      * @return type
      */
-    function buscar_categorias($datos){
+    function buscar_categoria($datos){
         $this->db->where($datos);
         $query = $this->db->get('categoria');
-        return $query->result_array();
+        return $query->row_array();
     }
 }
 

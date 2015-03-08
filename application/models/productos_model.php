@@ -6,6 +6,24 @@ class Productos_model extends CI_Model {
         parent::__construct();
     }
     
+    
+
+    function num_productos_destacados() {
+        
+        $this->db->from('producto');
+        
+
+        $where = '(fecha_ini_dest < '.date("Y-m-d").' AND fecha_fin_dest > '.date("Y-m-d").') OR ';
+        $where.= '(fecha_ini_dest is null AND fecha_fin_dest is null AND destacado like "1")';
+        $this->db->where($where);
+
+        $resultado = $this->db->get();
+
+        return $resultado->num_rows();
+    }
+
+
+
     /**
      * Lista todos los productos de la tienda
      * @return type
@@ -37,6 +55,18 @@ class Productos_model extends CI_Model {
         $this->db->where($datos);
         $query = $this->db->get('producto');
         return $query->result_array();
+    }
+
+    function listar_destacados($pag = 0, $max_por_pag = MAX_POR_PAG) {
+        $this->db->limit($max_por_pag, $pag);
+       
+        $this->db->from('producto');
+        $where = '(fecha_ini_dest < '.date("Y-m-d").' AND fecha_fin_dest > '.date("Y-m-d").') OR ';
+        $where.= '(fecha_ini_dest is null AND fecha_fin_dest is null AND destacado like "1")';
+        $this->db->where($where);
+
+        $resultado = $this->db->get();
+        return $resultado->result_array();
     }
     
     /**

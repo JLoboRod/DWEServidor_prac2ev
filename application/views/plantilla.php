@@ -6,6 +6,7 @@
     <title>2DAW Tienda Online</title>
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/estilos.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/estilos-lista-productos.css'); ?>">
 </head>
 <body>
     <div class="container">
