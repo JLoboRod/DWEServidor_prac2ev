@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
+require_once __DIR__.'/my_controller.php';
+
 class Clientes extends My_Controller {
 
     public function __construct() {
         parent::__construct();
-
-        
 
         //Mensajes de validación de nuestras callbacks
         //%s es el nombre del campo que tiene errores
@@ -339,11 +339,23 @@ class Clientes extends My_Controller {
             $lista_pedidos[$i]['provincia'] = $this->provincias_model->nombre_provincia($pedido['provincia']);
         }
         
+        $mensaje = '';
+        if($this->session->flashdata('correo_exito')){
+            $mensaje = $this->load->view('mensaje_exito', array(
+                'mensaje' => $this->session->flashdata('correo_exito')
+                ), TRUE); 
+        }
+        else if($this->session->flashdata('correo_error')){
+            $mensaje = $this->load->view('mensaje_error', array(
+                'mensaje' => $this->session->flashdata('correo_error')
+                ), TRUE);
+        }
+
         $vista_pedidos = $this->load->view('lista_pedidos', array(
             'pedidos' => $lista_pedidos
             ), TRUE);
 
-        $this->plantilla($vista_pedidos);
+        $this->plantilla($mensaje.$vista_pedidos);
 
     }
 
@@ -388,8 +400,21 @@ class Clientes extends My_Controller {
      * @return [type] [description]
      */
     function salir(){
-        $this->session->unset_userdata('usuario');
-        redirect(base_url('index.php'));
+        if($this->input->post('si')){ //Salimos
+            $this->session->unset_userdata('usuario');
+            redirect(base_url('index.php'));
+        }
+        else if($this->input->post('no')){
+            redirect(base_url('index.php'));
+        }
+        else{
+            $confirmacion = $this->load->view('confirmar_salir', array(
+                'mensaje' => '¿Está seguro de que desea cerrar la sesión?'
+                ), TRUE);
+
+            $this->plantilla($confirmacion);
+        }
+        
     }
 
 

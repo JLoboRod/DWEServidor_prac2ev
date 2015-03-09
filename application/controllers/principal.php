@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once __DIR__.'/my_controller.php';
+
 class Principal extends My_Controller {
 
 
@@ -20,6 +22,7 @@ class Principal extends My_Controller {
      * @return [type]       [description]
      */
     function mostrar_destacados($pag = 0){
+
         $productos = $this->productos_model->listar_destacados($pag);
         $productos = $this->nombrar_categorias($productos);
         $productos = $this->preparar_fechas($productos);
@@ -190,7 +193,8 @@ class Principal extends My_Controller {
             );
         $this->cart->insert($datos);
         $this->session->set_flashdata('agregado', 'El producto fue agregado correctamente');
-        redirect(site_url(),'refresh');
+        //redirect(site_url(),'refresh');
+        redirect($this->input->post('url'));
     }
 
     public function vaciar_carrito(){
@@ -204,7 +208,7 @@ class Principal extends My_Controller {
      * @return [type] [description]
      */
     public function procesar_compra(){
-        
+
         if(!$this->session->userdata('usuario')){
             $this->session->set_flashdata('comprar', 'Debe loguearse para continuar con el proceso de compra');
             redirect(site_url('clientes/acceder'));
@@ -220,58 +224,77 @@ class Principal extends My_Controller {
                 redirect(site_url('principal/mostrar_carrito'));
             }
             else{
-                //Genero el array con los datos que le pasaremos a la funcion insertar pedido.
-                $cliente = $this->clientes_model->buscar_cliente_por_usuario($this->session->userdata('usuario'));
-                $datos_pedido=array(
-                    'cliente_id'=>$cliente['id'],
-                    'nombre'=>$cliente['nombre'],
-                    'apellidos'=>$cliente['apellidos'],
-                    'email'=>$cliente['email'],
-                    'dni'=>$cliente['dni'],
-                    'direccion'=>$cliente['direccion'],
-                    'provincia' => $cliente['provincia_id'],
-                    'cod_postal'=>$cliente['cod_postal'],
-                    'cantidad'=> $this->cart->total_items(),
-                    'importe'=>$this->cart->total(),
-                    'fecha_pedido'=>date('Y-m-d')
-                    );
-                
-                //Añadimos el pedido
-                $this->pedidos_model->crear_pedido($datos_pedido);
-                $id_pedido = $this->db->insert_id();
-                foreach ($this->cart->contents() as $articulo)
-                {
-                    $datosLinea=array(
-                        'producto_id'=>$articulo['id'],
-                        'pedido_id'=>$id_pedido,
-                        'cantidad'=>$articulo['qty'],
-                        'precio_venta'=>$articulo['price'],
-                        'descuento'=>$articulo['descuento'],
-                        'iva' => 21
-                        );
-                    $stock = $this->productos_model->get_stock($articulo['id']);
-                    $stock -= $articulo['qty'];
-                    $this->productos_model->set_stock($articulo['id'], $stock);
-                    $this->lineas_pedido_model->crear_linea_pedido($datosLinea);
-                }
-                
-                $this->cart->destroy(); //Limpiamos el carrito
-                //redirect(BASEURL.'index.php/pedido/factura/'.$idPedido);
-                $this->generar_factura($id_pedido);
-                if($this->mandar_mail_pedido($id_pedido)){
-                    $this->session->set_flashdata('correo_exito','Su pedido realizado correctamente. Se envió la factura a su correo.');
 
+
+                if($this->input->post('resumen_compra')){
+
+                //Array con los datos de pedido
+                    $cliente = $this->clientes_model->buscar_cliente_por_usuario($this->session->userdata('usuario'));
+                    $datos_pedido=array(
+                        'cliente_id'=>$cliente['id'],
+                        'nombre'=>$cliente['nombre'],
+                        'apellidos'=>$cliente['apellidos'],
+                        'email'=>$cliente['email'],
+                        'dni'=>$cliente['dni'],
+                        'direccion'=>$cliente['direccion'],
+                        'provincia' => $cliente['provincia_id'],
+                        'cod_postal'=>$cliente['cod_postal'],
+                        'cantidad'=> $this->cart->total_items(),
+                        'importe'=>$this->cart->total(),
+                        'fecha_pedido'=>date('Y-m-d')
+                        );
+
+                //Añadimos el pedido
+                    $this->pedidos_model->crear_pedido($datos_pedido);
+                    $id_pedido = $this->db->insert_id();
+                    foreach ($this->cart->contents() as $articulo)
+                    {
+                        $datosLinea=array(
+                            'producto_id'=>$articulo['id'],
+                            'pedido_id'=>$id_pedido,
+                            'cantidad'=>$articulo['qty'],
+                            'precio_venta'=>$articulo['price'],
+                            'descuento'=>$articulo['descuento'],
+                            'iva' => 21
+                            );
+                        $stock = $this->productos_model->get_stock($articulo['id']);
+                        $stock -= $articulo['qty'];
+                        $this->productos_model->set_stock($articulo['id'], $stock);
+                        $this->lineas_pedido_model->crear_linea_pedido($datosLinea);
+                    }
+
+                    $this->cart->destroy(); //Limpiamos el carrito
+                    //redirect(BASEURL.'index.php/pedido/factura/'.$idPedido);
+                    $this->generar_factura($id_pedido);
+                    if($this->mandar_mail_pedido($id_pedido)){
+                        $this->session->set_flashdata('correo_exito','Su pedido se ha realizado correctamente. Se envió la factura a su correo.');
+
+                    }
+                    else{
+                        $this->session->set_flashdata('correo_error','Hubo algún error al enviar la factura.');
+                    }
+
+                    redirect(site_url('clientes/listar_pedidos'));
                 }
                 else{
-                    $this->session->set_flashdata('correo_error','Hubo algún error.');
+                    //Vamos a mostrar el resumen de la compra
+                    $mensaje = $this->load->view('mensaje', array(
+                        'mensaje' => 'A continuación se le mandará una factura a su correo electrónico'
+                        ), TRUE);
+
+                    $resumen = $this->load->view('vista_resumen', array(
+                        'productos' => $this->cart->contents(),
+                        'total' => $this->cart->total()
+                        ), TRUE);
+
+                    $this->plantilla($mensaje.$resumen);
                 }
-                redirect(site_url());
             }   
         }
 
     }
 
-    
+
     /**
      * Manda un email con el detalle el pedido
      * @param  [type] $id_pedido [description]

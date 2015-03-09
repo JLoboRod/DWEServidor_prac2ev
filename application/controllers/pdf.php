@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once __DIR__.'/my_controller.php';
+
 
 class Pdf extends My_Controller {
 

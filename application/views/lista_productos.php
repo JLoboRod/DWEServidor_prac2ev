@@ -34,6 +34,7 @@
                         <form action="<?=site_url('principal/agregar_producto/'.$producto['id'])?>" method="post">
                           <input type="hidden" name="id_producto" value="<?=$producto['id']?>"/>
                           <input type="hidden" name="descuento" value="<?=$producto['descuento']?>"/>
+                          <input type="hidden" name="url" value="<?= current_url() ?>" />
                           <p>
                             <div class="form-group <?=(isset($clase_campo_form['usuario']))?$clase_campo_form['usuario']:''?>">
                               <input type="number" class="form-control" name="cantidad" id="cantidad" min="1" value="1">

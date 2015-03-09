@@ -24,7 +24,7 @@ if(MODO_LOCAL){
     $config['base_url']	= '';
 }
 else{
-    $config['base_url']= 'http://iessansebastian.com/alumnos/2daw1415/joaquin/DWEServidor_prac2ev';
+    $config['base_url']= 'http://iessansebastian.com/alumnos/2daw1415/joaquin/practica';
 }
 /*
 |--------------------------------------------------------------------------

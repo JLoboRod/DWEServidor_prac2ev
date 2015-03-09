@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2015 a las 20:24:33
+-- Tiempo de generación: 09-03-2015 a las 23:30:28
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -68,15 +68,17 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `direccion` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `cod_postal` varchar(15) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `provincia_id` char(2) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
 INSERT INTO `cliente` (`id`, `usuario`, `password`, `activo`, `email`, `nombre`, `apellidos`, `dni`, `direccion`, `cod_postal`, `provincia_id`) VALUES
-(4, 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', 1, 'usuario@gmail.com', 'usuario', 'usuario', '48921540b', 'asdasda', '21004', '02'),
-(5, 'node', '36c4536996ca5615dcf9911f068786dc', 1, 'node@gmail.com', 'node', 'node', '48921540b', 'C/ Node', '21005', '06');
+(4, 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', 1, 'jloborod@gmail.com', 'usuario', 'usuario', '48921540b', 'asdasda', '21004', '02'),
+(5, 'node', '36c4536996ca5615dcf9911f068786dc', 1, 'node@gmail.com', 'node', 'node', '48921540b', 'C/ Node', '21005', '06'),
+(6, 'joki', '11395b0f8c08d37074d8a67d9da57da7', 1, 'jloborod@gmail.com', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21043', '21'),
+(7, 'lobo', '1b554a52643788461c4c51c68a23cbc5', 1, 'jloborod3@gmail.com', 'Joaquin', 'Lobo', '48921540b', 'C/ Forest 67', '21548', '21');
 
 -- --------------------------------------------------------
 
@@ -89,10 +91,36 @@ CREATE TABLE IF NOT EXISTS `linea_pedido` (
   `pedido_id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL,
   `precio_venta` decimal(5,3) NOT NULL,
-  `descuento` decimal(5,3) NOT NULL,
+  `descuento` decimal(5,3) DEFAULT NULL,
   `iva` decimal(5,3) NOT NULL,
   `cantidad` int(11) NOT NULL COMMENT 'Por si en el pedido hay varias unidades de un producto'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `linea_pedido`
+--
+
+INSERT INTO `linea_pedido` (`id`, `pedido_id`, `producto_id`, `precio_venta`, `descuento`, `iva`, `cantidad`) VALUES
+(3, 7, 3, '66.000', NULL, '21.000', 3),
+(4, 7, 5, '66.000', NULL, '21.000', 1),
+(5, 8, 10, '66.000', '55.000', '21.000', 1),
+(6, 8, 11, '69.000', '4.000', '21.000', 1),
+(7, 9, 3, '66.000', NULL, '21.000', 1),
+(8, 9, 7, '64.000', '5.000', '21.000', 1),
+(9, 10, 45, '30.900', '10.000', '21.000', 1),
+(10, 10, 44, '39.900', '8.000', '21.000', 1),
+(11, 11, 5, '66.000', NULL, '21.000', 2),
+(12, 12, 5, '66.000', NULL, '21.000', 1),
+(13, 12, 3, '66.000', NULL, '21.000', 1),
+(14, 13, 7, '64.000', '5.000', '21.000', 1),
+(15, 14, 3, '66.000', NULL, '21.000', 1),
+(16, 14, 7, '64.000', '5.000', '21.000', 1),
+(17, 15, 45, '30.900', '10.000', '21.000', 1),
+(18, 16, 8, '40.000', '7.000', '21.000', 1),
+(19, 16, 9, '64.000', '5.000', '21.000', 1),
+(20, 16, 7, '64.000', '5.000', '21.000', 1),
+(21, 17, 26, '59.900', '5.000', '21.000', 1),
+(22, 17, 24, '56.900', '7.000', '21.000', 1);
 
 -- --------------------------------------------------------
 
@@ -110,8 +138,28 @@ CREATE TABLE IF NOT EXISTS `pedido` (
   `direccion` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
   `cod_postal` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
   `provincia` char(2) COLLATE utf8_spanish2_ci NOT NULL,
-  `fecha_pedido` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `fecha_pedido` datetime NOT NULL,
+  `email` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `importe` decimal(5,2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `pedido`
+--
+
+INSERT INTO `pedido` (`id`, `cliente_id`, `estado`, `nombre`, `apellidos`, `dni`, `direccion`, `cod_postal`, `provincia`, `fecha_pedido`, `email`, `cantidad`, `importe`) VALUES
+(7, 5, 'P', 'node', 'node', '48921540b', 'C/ Node', '21005', '06', '2015-03-09 00:00:00', 'node@gmail.com', 4, '100.00'),
+(8, 5, 'P', 'node', 'node', '48921540b', 'C/ Node', '21005', '06', '2015-03-09 00:00:00', 'node@gmail.com', 2, '100.00'),
+(9, 5, 'P', 'node', 'node', '48921540b', 'C/ Node', '21005', '06', '2015-03-09 00:00:00', 'node@gmail.com', 2, '100.00'),
+(10, 5, 'P', 'node', 'node', '48921540b', 'C/ Node', '21005', '06', '2015-03-09 00:00:00', 'node@gmail.com', 2, '70.80'),
+(11, 5, 'P', 'node', 'node', '48921540b', 'C/ Node', '21005', '06', '2015-03-09 00:00:00', 'node@gmail.com', 2, '132.00'),
+(12, 6, 'P', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21045', '21', '2015-03-09 00:00:00', 'jloborod@gmail.com', 2, '132.00'),
+(13, 6, 'E', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21045', '21', '2015-03-09 00:00:00', 'jloborod@gmail.com', 1, '64.00'),
+(14, 4, 'P', 'usuario', 'usuario', '48921540b', 'asdasda', '21004', '02', '2015-03-09 00:00:00', 'jloborod@gmail.com', 2, '130.00'),
+(15, 6, 'P', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21043', '21', '2015-03-09 00:00:00', 'jloborod@gmail.com', 1, '30.90'),
+(16, 6, 'P', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21043', '21', '2015-03-09 00:00:00', 'jloborod@gmail.com', 3, '168.00'),
+(17, 6, 'P', 'Joaquin', 'Lobo Rodriguez', '48921540b', 'C/ Focha 47', '21043', '21', '2015-03-09 00:00:00', 'jloborod@gmail.com', 2, '116.80');
 
 -- --------------------------------------------------------
 
@@ -144,15 +192,15 @@ CREATE TABLE IF NOT EXISTS `producto` (
 INSERT INTO `producto` (`id`, `cod_interno`, `nombre`, `categoria_id`, `precio_venta`, `descuento`, `imagen`, `iva`, `descripcion`, `anuncio`, `destacado`, `fecha_ini_dest`, `fecha_fin_dest`, `visible`, `stock`) VALUES
 (1, 'game_dying_light_ps4', 'Dying Light', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/21/00197578501708____1__600x600.jpg', '21.000', 'Descripción Dying Light', NULL, 0, NULL, NULL, 1, 10),
 (2, 'game_far_cry_4_ps4', 'Far Cry 4', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197578501179____1__600x600.jpg', '21.000', 'Descripción Far Cry', NULL, 0, NULL, NULL, 1, 15),
-(3, 'game_the_order_1886_ps4', 'The Order 1886', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197578502003____8__600x600.jpg', '21.000', 'Descripción The Order 1886', NULL, 1, NULL, NULL, 1, 20),
+(3, 'game_the_order_1886_ps4', 'The Order 1886', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197578502003____8__600x600.jpg', '21.000', 'Descripción The Order 1886', NULL, 1, NULL, NULL, 1, 14),
 (4, 'game_fifa_15_ps4', 'Fifa 15', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/20/00197578501088____8__600x600.jpg', '21.000', 'Descripción Fifa 15', NULL, 0, NULL, NULL, 1, 5),
-(5, 'game_sombras_mordor_ps4', 'La Tierra Media: Sombras de Mordor', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197578500890____13__600x600.jpg', '21.000', 'Descripción Sombras de Mordor', NULL, 1, NULL, NULL, 1, 8),
+(5, 'game_sombras_mordor_ps4', 'La Tierra Media: Sombras de Mordor', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197578500890____13__600x600.jpg', '21.000', 'Descripción Sombras de Mordor', NULL, 1, NULL, NULL, 1, 16),
 (6, 'game_destiny_ps4', 'Destiny', 1, '69.00', 40, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201312/11/00197578500445____1__600x600.jpg', '21.000', 'Descripción Destiny', NULL, 0, NULL, NULL, 1, 3),
-(7, 'game_halo_master_chief_collection_xbox_one', 'Halo: The Master Chief Collection', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500907____1__600x600.jpg', '21.000', 'Descripción Halo The Master Chef Collection', NULL, 1, NULL, NULL, 1, 20),
-(8, 'game_dead_or_alive_5_xbox_one', 'Dead or Alive 5: Last Round', 3, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/23/00197579501988____1__600x600.jpg', '21.000', 'Descripción Dead or Alive 5: Last Round', NULL, 0, NULL, NULL, 1, 20),
-(9, 'game_forza_horizon_2_xbox_one', 'Forza Horizon 2', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500881____1__600x600.jpg', '21.000', 'Descripción Forza Horizon 2', NULL, 0, NULL, NULL, 1, 15),
-(10, 'game_forza_motorsport_5_xbox_one', 'Forza Motorsport 5', 3, '66.00', 55, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197579500097____1__600x600.jpg', '21.000', 'Descripción Forza Motorsport 5', NULL, 1, NULL, NULL, 1, 3),
-(11, 'game_evil_within_xbox_one', 'Evil Within', 3, '69.00', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/05/00197579500725____1__600x600.jpg', '21.000', 'Descripción Evil Within', NULL, 1, NULL, NULL, 1, 7),
+(7, 'game_halo_master_chief_collection_xbox_one', 'Halo: The Master Chief Collection', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500907____1__600x600.jpg', '21.000', 'Descripción Halo The Master Chef Collection', NULL, 1, NULL, NULL, 1, 1),
+(8, 'game_dead_or_alive_5_xbox_one', 'Dead or Alive 5: Last Round', 3, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/23/00197579501988____1__600x600.jpg', '21.000', 'Descripción Dead or Alive 5: Last Round', NULL, 0, NULL, NULL, 1, 19),
+(9, 'game_forza_horizon_2_xbox_one', 'Forza Horizon 2', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500881____1__600x600.jpg', '21.000', 'Descripción Forza Horizon 2', NULL, 0, NULL, NULL, 1, 14),
+(10, 'game_forza_motorsport_5_xbox_one', 'Forza Motorsport 5', 3, '66.00', 55, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197579500097____1__600x600.jpg', '21.000', 'Descripción Forza Motorsport 5', NULL, 1, NULL, NULL, 1, 2),
+(11, 'game_evil_within_xbox_one', 'Evil Within', 3, '69.00', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/05/00197579500725____1__600x600.jpg', '21.000', 'Descripción Evil Within', NULL, 1, NULL, NULL, 1, 6),
 (12, 'game_tomb_raider_de_xbox_one', 'Tomb Raider Definitive Edition', 3, '59.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201401/09/00197579500410____1__600x600.jpg', '21.000', 'Tomb Raider Definitive Edition', NULL, 0, NULL, NULL, 1, 12),
 (13, 'game_sniper_elite_3_xbox_one', 'Sniper Elite 3', 3, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/10/00197579500535____6__600x600.jpg', '21.000', 'Descripción Sniper Elite III', NULL, 1, NULL, NULL, 1, 2),
 (14, 'game_starcraft2_heart_of_swarm_pc ', 'Starcraft II: Heart Of The Swarm', 9, '20.90', 14, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/IMAGENES02/201301/18/00197560507721____1__600x600.jpg', '21.000', 'Descripción Starcraft II: Heart Of The Swarm', NULL, 0, NULL, NULL, 1, 20),
@@ -165,8 +213,8 @@ INSERT INTO `producto` (`id`, `cod_interno`, `nombre`, `categoria_id`, `precio_v
 (21, 'game_infamous_second_son_ps4', 'Infamous Second Son', 1, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201402/14/00197578500486____12__600x600.jpg', '21.000', 'Descripción Infamous Second Son', NULL, 0, NULL, NULL, 1, 4),
 (22, 'game_batman_arkham_knight_ps4', 'Batman: Arkham Knight', 1, '69.90', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/14/00197578500825____1__600x600.jpg', '21.000', 'Descripción Batman: Arkham Knight', NULL, 1, NULL, NULL, 1, 20),
 (23, 'game_mario_party_10_wii_u', 'Mario Party 10', 6, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201502/25/00197577502491____1__600x600.jpg', '21.000', 'Descripción Mario Party 10', NULL, 1, NULL, NULL, 1, 15),
-(24, 'game_the_wind_waker_hd_wii_u', 'The Legend Of Zelda: The Wind Waker Hd', 6, '56.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201310/07/00197577501675____1__600x600.jpg', '21.000', 'Descripción The Legend Of Zelda: The Wind Waker Hd', NULL, 1, NULL, NULL, 1, 5),
-(26, 'game_super_smash_bros_wii_u', 'Super Smash Bros', 6, '59.90', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/22/00197577502400____3__600x600.jpg', '21.000', 'Descripción Super Smash Bros', NULL, 1, NULL, NULL, 1, 6),
+(24, 'game_the_wind_waker_hd_wii_u', 'The Legend Of Zelda: The Wind Waker Hd', 6, '56.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201310/07/00197577501675____1__600x600.jpg', '21.000', 'Descripción The Legend Of Zelda: The Wind Waker Hd', NULL, 1, NULL, NULL, 1, 4),
+(26, 'game_super_smash_bros_wii_u', 'Super Smash Bros', 6, '59.90', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/22/00197577502400____3__600x600.jpg', '21.000', 'Descripción Super Smash Bros', NULL, 1, NULL, NULL, 1, 5),
 (28, 'game_super_mario_3d_world_wii_u', 'Super Mario 3d World', 6, '59.90', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197577501725____3__600x600.jpg', '21.000', 'Descripción Super Mario 3d World', NULL, 0, NULL, NULL, 1, 15),
 (29, 'game_captain_toad_treasure_tracker_wii_u', 'Captain Toad: Treasure Tracker', 6, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/20/00197577502442____1__600x600.jpg', '21.000', 'Descripción Captain Toad: Treasure Tracker', NULL, 0, NULL, NULL, 1, 7),
 (30, 'game_wii_party_u_wii_u', 'Wii Party U', 6, '49.90', 6, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197577502376____1__600x600.jpg', '21.000', 'Descripción Wii Party U', NULL, 0, NULL, NULL, 1, 6),
@@ -183,8 +231,8 @@ INSERT INTO `producto` (`id`, `cod_interno`, `nombre`, `categoria_id`, `precio_v
 (41, 'game_the_muppets_ps_vita', 'The Muppets Aventuras De Película', 8, '29.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/06/00197576502344____1__600x600.jpg', '21.000', 'Descripción The Muppets Aventuras De Película', NULL, 1, NULL, NULL, 1, 11),
 (42, 'game_lego_batman_3_ps_vita', 'Lego Batman 3: Más Allá De Gotham', 8, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197576502153____8__600x600.jpg', '21.000', 'Descripción Lego Batman 3: Más Allá De Gotham', NULL, 0, NULL, NULL, 1, 16),
 (43, 'game_undead_and_undressed_ps_vita', 'Akiba''S Trip: Undead & Undressed', 8, '41.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/14/00197576502286____1__600x600.jpg', '21.000', 'Descripción Akiba''S Trip: Undead & Undressed', NULL, 0, '2015-03-07 08:00:00', '2015-03-14 00:00:00', 1, 12),
-(44, 'game_battle_of_z_ps_vita', 'Dragon Ball Z: Battle Of Z', 8, '39.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197576501668____1__600x600.jpg', '21.000', 'Descripción Dragon Ball Z: Battle Of Z', NULL, 1, NULL, NULL, 1, 10),
-(45, 'game_pets_ps_vita', 'Playstation Pets', 8, '30.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/03/00197576502112____1__600x600.jpg', '21.000', 'Descripción Playstation Pets', NULL, 1, NULL, NULL, 1, 30);
+(44, 'game_battle_of_z_ps_vita', 'Dragon Ball Z: Battle Of Z', 8, '39.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197576501668____1__600x600.jpg', '21.000', 'Descripción Dragon Ball Z: Battle Of Z', NULL, 1, NULL, NULL, 1, 9),
+(45, 'game_pets_ps_vita', 'Playstation Pets', 8, '30.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/03/00197576502112____1__600x600.jpg', '21.000', 'Descripción Playstation Pets', NULL, 1, NULL, NULL, 1, 28);
 
 -- --------------------------------------------------------
 
@@ -308,17 +356,17 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `linea_pedido`
 --
 ALTER TABLE `linea_pedido`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
