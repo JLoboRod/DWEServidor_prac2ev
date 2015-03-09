@@ -10,4 +10,5 @@
         <span class="help-block"><?= form_error('password') ?></span>
     </div>
     <button type="submit" class="btn btn-default">Enviar</button>
+    <a href="<?=site_url('clientes/restore_pass')?>">Restablecer password</a>
 </form>

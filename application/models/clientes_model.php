@@ -63,8 +63,8 @@ class Clientes_model extends CI_Model {
      * @param type $id
      * @param type $datos
      */
-    function editar_cliente($id, $datos){
-        $this->db->where('id', $id);
+    function editar_cliente($usuario, $datos){
+        $this->db->where('usuario', $usuario);
         $this->db->update('cliente', $datos);
     }
     
@@ -88,6 +88,14 @@ class Clientes_model extends CI_Model {
 
         return $query->row_array();
     }
+
+    function buscar_cliente_por_email($email){
+         $this->db->where('email', $email);
+        $query = $this->db->get('cliente');
+
+        return $query->row_array();
+    }
+
 }
 
 
