@@ -40,11 +40,11 @@ class Clientes_model extends CI_Model {
      * pero no lo elimina
      * @param type $id
      */
-    function baja_cliente($id){
+    function baja_cliente($usuario){
         $datos = array(
             'activo' => 0
         );
-        $this->db->where('id', $id);
+        $this->db->where('usuario', $usuario);
         $this->db->update('cliente', $datos);
     }
     

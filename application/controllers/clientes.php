@@ -31,13 +31,8 @@ class Clientes extends My_Controller {
             $usuario = $this->input->post('usuario');
             $password = $this->input->post('password');
 
-            if($this->login_correcto($usuario, $password))
+            if($this->login_correcto($usuario, $password) && !$this->esta_de_baja($usuario))
             {       
-                
-                if($this->esta_de_baja($usuario)){
-                    $confirmacion_alta = $this->load->view('confirmacion_alta', 0, TRUE);
-                    $this->plantilla($confirmacion_alta);
-                }
                 //Añade usuario a la session
                 $this->session->set_userdata('usuario', $usuario);
                 if(!$this->session->userdata('comprar')){
@@ -53,24 +48,23 @@ class Clientes extends My_Controller {
 
                 $mensaje = $this->load->view('mensaje_error', array(
                     'mensaje' => 'Datos erróneos. Por favor, inténtelo otra vez.' 
-                ), TRUE);
-     
-                    
+                    ), TRUE);
+
+
                 $this->plantilla($mensaje.$formulario);
             }
         }
         else
         {
-            
+
             $clases_form = array(
-            'usuario'   => form_error('usuario')? 'has-error':'',
-            'password'  => form_error('password')? 'has-error':''
-            );
+                'usuario'   => form_error('usuario')? 'has-error':'',
+                'password'  => form_error('password')? 'has-error':''
+                );
             $mensaje = $this->load->view('mensaje', array(
-                    'mensaje' => $this->session->userdata('comprar')
+                'mensaje' => $this->session->flashdata('comprar')
                 ), TRUE);
 
-            $this->session->unset_userdata('comprar');
             
             $formulario = $this->load->view('formulario_acceso', array(
                 'clase_campo_form' => $clases_form
@@ -151,17 +145,17 @@ class Clientes extends My_Controller {
             //Esto lo hacemos para dar clases Bootstrap a los 
             //campos del formulario según haya error o no
             $clases_form = array(
-            'usuario'   => form_error('usuario')? 'has-error':'',
-            'password'  => form_error('password')? 'has-error':'', 
-            'email'     => form_error('email')? 'has-error':'',
-            'nombre'    => form_error('nombre')? 'has-error':'',
-            'apellidos' => form_error('apellidos')? 'has-error':'',
-            'dni'       => form_error('dni')? 'has-error':'',
-            'direccion' => form_error('direccion')? 'has-error':'',
-            'cod_postal'=> form_error('cod_postal')? 'has-error':'',
-            'provincia' => form_error('provincia')? 'has-error':''
+                'usuario'   => form_error('usuario')? 'has-error':'',
+                'password'  => form_error('password')? 'has-error':'', 
+                'email'     => form_error('email')? 'has-error':'',
+                'nombre'    => form_error('nombre')? 'has-error':'',
+                'apellidos' => form_error('apellidos')? 'has-error':'',
+                'dni'       => form_error('dni')? 'has-error':'',
+                'direccion' => form_error('direccion')? 'has-error':'',
+                'cod_postal'=> form_error('cod_postal')? 'has-error':'',
+                'provincia' => form_error('provincia')? 'has-error':''
 
-            );
+                );
 
             $formulario = $this->load->view('formulario_registro', array(
                 'provincias' => $provincias, 
@@ -172,8 +166,27 @@ class Clientes extends My_Controller {
         }
     }
 
-    function dar_de_alta($usuario){
-
+    /**
+     * Da de baja al usuario que esté en la sesión
+     * @return [type] [description]
+     */
+    function dar_de_baja(){
+        var_dump($this->input->post());
+        if($this->input->post('si')){
+            $this->clientes_model->baja_cliente($this->session->userdata('usuario'));
+            $this->session->unset_userdata('usuario');
+            redirect(base_url('index.php'));    
+        }
+        else if($this->input->post('no')){
+            redirect(base_url('index.php'));
+        }
+        else{
+            $confirmacion = $this->load->view('confirmacion_baja', array(
+                'mensaje' => '¿Está seguro de que desea darse de baja?'
+                ), TRUE);
+            $this->plantilla($confirmacion);
+        }
+        
     }
 
     /**

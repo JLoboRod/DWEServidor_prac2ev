@@ -54,7 +54,7 @@
                         <li class="dropdown-header">Nav header</li>
                         <li><a href="<?=base_url('index.php/clientes/editar_info_cliente')?>">Editar información</a></li>
                         
-                        <li><a href="<?=base_url('index.php/clientes/dar_baja_cliente')?>">Darse de baja</a></li>
+                        <li><a href="<?=base_url('index.php/clientes/dar_de_baja')?>">Darse de baja</a></li>
                         
                         <li><a href="#">Ver pedidos</a></li>
                         
