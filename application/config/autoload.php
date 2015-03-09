@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session', 'form_validation', 'pagination');
+$autoload['libraries'] = array('database', 'session', 'form_validation', 'pagination', 'cart');
 
 
 /*
@@ -109,7 +109,8 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('provincias_model', 'clientes_model', 
+    'categorias_model', 'productos_model', 'pedidos_model', 'lineas_pedido_model');
 
 
 /* End of file autoload.php */

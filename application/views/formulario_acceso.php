@@ -9,6 +9,5 @@
         <input type="text" class="form-control" name="password" id="password" value="" placeholder="Introduzca el password">
         <span class="help-block"><?= form_error('password') ?></span>
     </div>
-
     <button type="submit" class="btn btn-default">Enviar</button>
 </form>

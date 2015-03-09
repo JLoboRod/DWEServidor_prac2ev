@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-03-2015 a las 04:00:46
+-- Tiempo de generación: 08-03-2015 a las 20:24:33
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -46,7 +46,7 @@ INSERT INTO `categoria` (`id`, `cod_interno`, `nombre`, `descripcion`, `anuncio`
 (4, 'cat_xbox_360', 'xbox 360', 'La anterior consola de Microsoft', '<h1>Xbox 360</h1>\r\n<p>Todos los juegos de la anterior consola de Microsoft</p>', 1),
 (5, 'cat_wii', 'wii', 'Consola Wii', '<h1>Nintendo Wii</h1>\r\n<p>Todos los juegos de la anterior consola de Nintendo</p>', 1),
 (6, 'cat_wii_u', 'wii u', 'Consola Wii U', '<h1>Nintendo Wii U</h1>\r\n<p>Todos los juegos de la consola Nintendo Wii U</p>', 1),
-(7, 'cat_3ds', '3ds', 'Consola Nintendo 3ds', '<h1>Nintendo 3DS</h1>\r\n<p>Aquí están todos los juegos de Nintendo 3DS</p>', 1),
+(7, 'cat_3ds', '3ds', 'Consola Nintendo 3DS', '<h1>Nintendo 3DS</h1>\r\n<p>Aquí están todos los juegos de Nintendo 3DS</p>', 1),
 (8, 'cat_ps_vita', 'ps vita', 'Consola PS Vita', '<h1>PS Vita</h1>\r\n<p>Todos los juegos de la portatil de Sony</p>', 1),
 (9, 'cat_pc', 'pc', 'pc', '<h1>PC</h1>\r\n<p>Juegos para PC</p>', 1);
 
@@ -68,14 +68,15 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `direccion` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `cod_postal` varchar(15) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `provincia_id` char(2) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
 INSERT INTO `cliente` (`id`, `usuario`, `password`, `activo`, `email`, `nombre`, `apellidos`, `dni`, `direccion`, `cod_postal`, `provincia_id`) VALUES
-(1, 'prueba', 'prueba', 1, 'prueba@prueba.com', 'prueba', 'prueba prueba', '45839220B', 'dirección de prueba', '123456', '21');
+(4, 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', 1, 'usuario@gmail.com', 'usuario', 'usuario', '48921540b', 'asdasda', '21004', '02'),
+(5, 'node', '36c4536996ca5615dcf9911f068786dc', 1, 'node@gmail.com', 'node', 'node', '48921540b', 'C/ Node', '21005', '06');
 
 -- --------------------------------------------------------
 
@@ -123,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `cod_interno` varchar(45) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'Código interno con el que se identifica en la organización',
   `nombre` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `categoria_id` int(11) NOT NULL,
-  `precio_venta` decimal(7,3) DEFAULT NULL,
-  `descuento` decimal(5,3) DEFAULT NULL,
+  `precio_venta` decimal(7,2) DEFAULT NULL,
+  `descuento` int(11) DEFAULT NULL,
   `imagen` varchar(256) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `iva` decimal(5,3) DEFAULT '21.000',
   `descripcion` varchar(250) COLLATE utf8_spanish2_ci DEFAULT NULL,
@@ -141,49 +142,49 @@ CREATE TABLE IF NOT EXISTS `producto` (
 --
 
 INSERT INTO `producto` (`id`, `cod_interno`, `nombre`, `categoria_id`, `precio_venta`, `descuento`, `imagen`, `iva`, `descripcion`, `anuncio`, `destacado`, `fecha_ini_dest`, `fecha_fin_dest`, `visible`, `stock`) VALUES
-(1, 'game_dying_light_ps4', 'Dying Light Ps4', 1, '66.000', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/21/00197578501708____1__600x600.jpg', '21.000', 'Descripción Dying Light Ps4', NULL, 0, NULL, NULL, 1, 10),
-(2, 'game_far_cry_4_ps4', 'Far Cry Ps4', 1, '66.000', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197578501179____1__600x600.jpg', '21.000', 'Descripción Far Cry Ps4', NULL, 0, NULL, NULL, 1, 15),
-(3, 'game_the_order_1886_ps4', 'The Order 1886 Ps4', 1, '66.000', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197578502003____8__600x600.jpg', '21.000', 'Descripción The Order 1886 Ps4', NULL, 1, NULL, NULL, 1, 20),
-(4, 'game_fifa_15_ps4', 'Fifa 15 Ps4', 1, '66.000', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/20/00197578501088____8__600x600.jpg', '21.000', 'Descripción Fifa 15 Ps4', NULL, 0, NULL, NULL, 1, 5),
-(5, 'game_sombras_mordor_ps4', 'La Tierra Media: Sombras de Mordor Ps4', 1, '66.000', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197578500890____13__600x600.jpg', '21.000', 'Descripción Sombras de Mordor Ps4', NULL, 1, NULL, NULL, 1, 8),
-(6, 'game_destiny_ps4', 'Destiny Ps4', 1, '69.000', '40.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201312/11/00197578500445____1__600x600.jpg', '21.000', 'Descripción Destiny Ps4', NULL, 0, NULL, NULL, 1, 3),
-(7, 'game_halo_master_chief_collection_xbox_one', 'Halo: The Master Chief Collection Xbox One', 3, '64.000', '5.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500907____1__150x150.jpg', '21.000', 'Descripción Halo The Master Chef Collection xBox One', NULL, 1, NULL, NULL, 1, 20),
-(8, 'game_dead_or_alive_5_xbox_one', 'Dead or Alive 5: Last Round Xbox One', 3, '40.000', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/23/00197579501988____1__150x150.jpg', '21.000', 'Descripción Dead or Alive 5: Last Round xBox One', NULL, 0, NULL, NULL, 1, 20),
-(9, 'game_forza_horizon_2_xbox_one', 'Forza Horizon 2 Xbox One', 3, '64.000', '5.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500881____1__150x150.jpg', '21.000', 'Descripción Forza Horizon 2 xBox One', NULL, 0, NULL, NULL, 1, 15),
-(10, 'game_forza_motorsport_5_xbox_one', 'Forza Motorsport 5 Xbox One', 3, '66.000', '55.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197579500097____1__150x150.jpg', '21.000', 'Descripción Forza Motorsport 5 xBox One', NULL, 1, NULL, NULL, 1, 3),
-(11, 'game_evil_within_xbox_one', 'Evil Within Xbox One', 3, '69.000', '4.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/05/00197579500725____1__150x150.jpg', '21.000', 'Descripción Evil Within xBox One', NULL, 1, NULL, NULL, 1, 7),
-(12, 'game_tomb_raider_de_xbox_one', 'Tomb Raider Definitive Edition Xbox One', 3, '59.000', '5.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201401/09/00197579500410____1__150x150.jpg', '21.000', 'Tomb Raider Definitive Edition xBox One', NULL, 0, NULL, NULL, 1, 12),
-(13, 'game_sniper_elite_3_xbox_one', 'Sniper Elite 3 Xbox One', 3, '40.000', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/10/00197579500535____6__150x150.jpg', '21.000', 'Descripción Sniper Elite III Xbox One', NULL, 1, NULL, NULL, 1, 2),
-(14, 'game_starcraft2_heart_of_swarm_pc ', 'Starcraft II: Heart Of The Swarm Pc', 9, '20.900', '14.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/IMAGENES02/201301/18/00197560507721____1__600x600.jpg', '21.000', 'Descripción Starcraft II: Heart Of The Swarm Pc', NULL, 0, NULL, NULL, 1, 20),
-(15, 'game_sid_meier_civilization_v_pc ', 'Sid Meier Civilization V: Beyond Earth Pc', 9, '48.900', '6.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201405/19/00197560510592____1__600x600.jpg', '21.000', 'Descripción Sid Meier Civilization V: Beyond Earth Pc', NULL, 1, NULL, NULL, 1, 10),
-(16, 'game_warlords_of_draenor_pc', 'World Of Warcraft: Warlords Of Draenor Pc', 9, '41.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/20/00197560510436____7__600x600.jpg', '21.000', 'Descripción World Of Warcraft: Warlords of Draenor Pc', NULL, 1, NULL, NULL, 1, 30),
-(17, 'game_lord_of_fallen_pc', 'Lords Of The Fallen Edición Limitada Pc', 9, '35.900', '8.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/28/00197560511095____1__600x600.jpg', '21.000', 'Descripción Lords Of The Fallen Edición Limitada Pc', NULL, 1, NULL, NULL, 1, 8),
-(18, 'game_diablo_3_pc', 'Diablo III Pc', 9, '44.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201305/03/00128617770723____8__600x600.jpg', NULL, 'Descripción Diablo III Pc', NULL, 0, NULL, NULL, 1, 20),
-(19, 'game_last_of_us_remasterizado_ps4', 'The Last Of Us Remasterizado Ps4', 1, '49.900', '6.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201404/25/00197578500973____1__600x600.jpg', '21.000', 'The Last Of Us Remasterizado Ps4', NULL, NULL, '2015-03-07 00:00:00', '2015-03-14 00:00:00', 1, 12),
-(20, 'game_bloodborne_ps4', 'Bloodborne Ps4', 1, '69.900', '4.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/11/00197578502029____9__600x600.jpg', '21.000', 'Descripción Bloodborne Ps4', NULL, 1, NULL, NULL, 1, 16),
-(21, 'game_infamous_second_son_ps4', 'Infamous Second Son Ps4', 1, '40.000', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201402/14/00197578500486____12__600x600.jpg', '21.000', 'Descripción Infamous Second Son Ps4', NULL, 0, NULL, NULL, 1, 4),
-(22, 'game_batman_arkham_knight_ps4', 'Batman: Arkham Knight Ps4', 1, '69.900', '4.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/14/00197578500825____1__600x600.jpg', '21.000', 'Descripción Batman: Arkham Knight Ps4', NULL, 1, NULL, NULL, 1, 20),
-(23, 'game_mario_party_10_wii_u', 'Mario Party 10 Wii U', 6, '42.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201502/25/00197577502491____1__600x600.jpg', '21.000', 'Descripción Mario Party 10 Wii U', NULL, 1, NULL, NULL, 1, 15),
-(24, 'game_the_wind_waker_hd_wii_u', 'The Legend Of Zelda: The Wind Waker Hd Wii U', 6, '56.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201310/07/00197577501675____1__600x600.jpg', '21.000', 'Descripción The Legend Of Zelda: The Wind Waker Hd Wii U', NULL, 1, NULL, NULL, 1, 5),
-(26, 'game_super_smash_bros_wii_u', 'Super Smash Bros Wii U', 6, '59.900', '5.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/22/00197577502400____3__600x600.jpg', '21.000', 'Descripción Super Smash Bros Wii U', NULL, 1, NULL, NULL, 1, 6),
-(28, 'game_super_mario_3d_world_wii_u', 'Super Mario 3d World Wii U', 6, '59.900', '5.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197577501725____3__600x600.jpg', '21.000', 'Descripción Super Mario 3d World Wii U', NULL, 0, NULL, NULL, 1, 15),
-(29, 'game_captain_toad_treasure_tracker_wii_u', 'Captain Toad: Treasure Tracker Wii U', 6, '42.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/20/00197577502442____1__600x600.jpg', '21.000', 'Descripción Captain Toad: Treasure Tracker Wii U', NULL, 0, NULL, NULL, 1, 7),
-(30, 'game_wii_party_u_wii_u', 'Wii Party U Wii U', 6, '49.900', '6.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197577502376____1__600x600.jpg', '21.000', 'Descripción Wii Party U Wii U', NULL, 0, NULL, NULL, 1, 6),
-(31, 'game_just_dance_2014_wii_u', 'Just Dance 2014 Wii U', 6, '29.900', '10.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197577501774____1__600x600.jpg', '21.000', 'Descripción Just Dance 2014 Wii U', NULL, 1, NULL, NULL, 1, 6),
-(32, 'game_disney_epic_mickey_2_wii_u', 'Disney Epic Mickey 2 Wii U', 6, '59.900', '25.000', 'http://sgfm.elcorteingles.es/SGFM/00/79/2/97577500792/97577500792000g01011.jpg', '21.000', 'Descripción Disney Epic Mickey 2: El Retorno De Dos Héroes Wii U', NULL, 0, '2015-03-07 09:00:00', '2015-03-14 08:00:00', 1, 20),
-(33, 'game_monster_hunter_4_ultimate_3ds', 'Monster Hunter 4: Ultimate 3ds', 7, '46.900', '6.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201501/21/00197571529623____1__600x600.jpg', '21.000', 'Descripción Monster Hunter 4: Ultimate 3ds', NULL, 1, NULL, NULL, 1, NULL),
-(34, 'game_big_hero_6_3ds', 'Big Hero 6: Batalla En La Bahía 3ds', 7, '39.900', '8.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/16/00197571529490____1__600x600.jpg', '21.000', 'Descripción Big Hero 6: Batalla En La Bahía 3ds', NULL, 1, NULL, NULL, 1, 12),
-(35, 'game_bob_esponja_el_heroe_3ds', 'Bob Esponja, El Héroe 3ds', 7, '29.900', '10.000', NULL, '21.000', 'Descripción Bob Esponja, El Héroe 3ds', NULL, 0, NULL, NULL, 1, 12),
-(36, 'game_universo_en_peligro_3ds', 'Lego Marvel Super Heroes: Universo En Peligro', 7, '20.900', '14.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201307/23/00197571527817____2__600x600.jpg', '21.000', 'Descripción Lego Marvel Super Heroes: Universo En Peligro 3ds', NULL, 1, NULL, NULL, 1, 6),
-(37, 'game_tomodachi_life_3ds', 'Tomodachi Life 3ds', 7, '42.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201405/14/00197571528864____1__600x600.jpg', '21.000', 'Descripción Tomodachi Life 3ds', NULL, 1, NULL, NULL, 1, 9),
-(38, 'game_minecraft_vita_edition_ps_vita', 'Minecraft Playstation Vita Edition Ps Vita', 8, '20.900', '14.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197576502161____1__600x600.jpg', '21.000', 'Descripción Minecraft Playstation Vita Edition Ps Vita', NULL, 1, NULL, NULL, 1, 16),
-(39, 'game_invizimals_la_resistencia_ps_vita', 'Invizimals: La Resistencia Ps Vita', 8, '30.900', '10.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/09/00197576502211____1__600x600.jpg', '21.000', 'Descripción Invizimals: La Resistencia Ps Vita', NULL, 1, NULL, NULL, 1, 14),
-(40, 'game_dynasty_warriors_8_ps_vita', 'Dynasty Warriors 8 Xtreme Legends Complete Ed', 8, '39.900', '8.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201402/27/00197576501916____1__600x600.jpg', '21.000', 'Descripción Dynasty Warriors 8 Xtreme Legends Complete Edition Ps Vita', NULL, 0, NULL, NULL, 1, 12),
-(41, 'game_the_muppets_ps_vita', 'The Muppets Aventuras De Película Ps Vita', 8, '29.900', '10.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/06/00197576502344____1__600x600.jpg', '21.000', 'Descripción The Muppets Aventuras De Película Ps Vita', NULL, 1, NULL, NULL, 1, 11),
-(42, 'game_lego_batman_3_ps_vita', 'Lego Batman 3: Más Allá De Gotham Ps Vita', 8, '42.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197576502153____8__600x600.jpg', '21.000', 'Descripción Lego Batman 3: Más Allá De Gotham Ps Vita', NULL, 0, NULL, NULL, 1, 16),
-(43, 'game_undead_and_undressed_ps_vita', 'Akiba''S Trip: Undead & Undressed Ps Vita', 8, '41.900', '7.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/14/00197576502286____1__600x600.jpg', '21.000', 'Descripción Akiba''S Trip: Undead & Undressed Ps Vita', NULL, 0, '2015-03-07 08:00:00', '2015-03-14 00:00:00', 1, 12),
-(44, 'game_battle_of_z_ps_vita', 'Dragon Ball Z: Battle Of Z Ps Vita', 8, '39.900', '8.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197576501668____1__600x600.jpg', '21.000', 'Descripción Dragon Ball Z: Battle Of Z Ps Vita', NULL, 1, NULL, NULL, 1, 10),
-(45, 'game_pets_ps_vita', 'Playstation Pets Ps Vita', 8, '30.900', '10.000', 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/03/00197576502112____1__600x600.jpg', '21.000', 'Descripción Playstation Pets Ps Vita', NULL, 1, NULL, NULL, 1, 30);
+(1, 'game_dying_light_ps4', 'Dying Light', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/21/00197578501708____1__600x600.jpg', '21.000', 'Descripción Dying Light', NULL, 0, NULL, NULL, 1, 10),
+(2, 'game_far_cry_4_ps4', 'Far Cry 4', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197578501179____1__600x600.jpg', '21.000', 'Descripción Far Cry', NULL, 0, NULL, NULL, 1, 15),
+(3, 'game_the_order_1886_ps4', 'The Order 1886', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197578502003____8__600x600.jpg', '21.000', 'Descripción The Order 1886', NULL, 1, NULL, NULL, 1, 20),
+(4, 'game_fifa_15_ps4', 'Fifa 15', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/20/00197578501088____8__600x600.jpg', '21.000', 'Descripción Fifa 15', NULL, 0, NULL, NULL, 1, 5),
+(5, 'game_sombras_mordor_ps4', 'La Tierra Media: Sombras de Mordor', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197578500890____13__600x600.jpg', '21.000', 'Descripción Sombras de Mordor', NULL, 1, NULL, NULL, 1, 8),
+(6, 'game_destiny_ps4', 'Destiny', 1, '69.00', 40, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201312/11/00197578500445____1__600x600.jpg', '21.000', 'Descripción Destiny', NULL, 0, NULL, NULL, 1, 3),
+(7, 'game_halo_master_chief_collection_xbox_one', 'Halo: The Master Chief Collection', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500907____1__600x600.jpg', '21.000', 'Descripción Halo The Master Chef Collection', NULL, 1, NULL, NULL, 1, 20),
+(8, 'game_dead_or_alive_5_xbox_one', 'Dead or Alive 5: Last Round', 3, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/23/00197579501988____1__600x600.jpg', '21.000', 'Descripción Dead or Alive 5: Last Round', NULL, 0, NULL, NULL, 1, 20),
+(9, 'game_forza_horizon_2_xbox_one', 'Forza Horizon 2', 3, '64.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/03/00197579500881____1__600x600.jpg', '21.000', 'Descripción Forza Horizon 2', NULL, 0, NULL, NULL, 1, 15),
+(10, 'game_forza_motorsport_5_xbox_one', 'Forza Motorsport 5', 3, '66.00', 55, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197579500097____1__600x600.jpg', '21.000', 'Descripción Forza Motorsport 5', NULL, 1, NULL, NULL, 1, 3),
+(11, 'game_evil_within_xbox_one', 'Evil Within', 3, '69.00', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/05/00197579500725____1__600x600.jpg', '21.000', 'Descripción Evil Within', NULL, 1, NULL, NULL, 1, 7),
+(12, 'game_tomb_raider_de_xbox_one', 'Tomb Raider Definitive Edition', 3, '59.00', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201401/09/00197579500410____1__600x600.jpg', '21.000', 'Tomb Raider Definitive Edition', NULL, 0, NULL, NULL, 1, 12),
+(13, 'game_sniper_elite_3_xbox_one', 'Sniper Elite 3', 3, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/10/00197579500535____6__600x600.jpg', '21.000', 'Descripción Sniper Elite III', NULL, 1, NULL, NULL, 1, 2),
+(14, 'game_starcraft2_heart_of_swarm_pc ', 'Starcraft II: Heart Of The Swarm', 9, '20.90', 14, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/IMAGENES02/201301/18/00197560507721____1__600x600.jpg', '21.000', 'Descripción Starcraft II: Heart Of The Swarm', NULL, 0, NULL, NULL, 1, 20),
+(15, 'game_sid_meier_civilization_v_pc ', 'Sid Meier Civilization V: Beyond Earth', 9, '48.90', 6, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201405/19/00197560510592____1__600x600.jpg', '21.000', 'Descripción Sid Meier Civilization V: Beyond Earth', NULL, 1, NULL, NULL, 1, 10),
+(16, 'game_warlords_of_draenor_pc', 'World Of Warcraft: Warlords Of Draenor', 9, '41.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/20/00197560510436____7__600x600.jpg', '21.000', 'Descripción World Of Warcraft: Warlords of Draenor', NULL, 1, NULL, NULL, 1, 30),
+(17, 'game_lord_of_fallen_pc', 'Lords Of The Fallen Edición Limitada', 9, '35.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/28/00197560511095____1__600x600.jpg', '21.000', 'Descripción Lords Of The Fallen Edición Limitada', NULL, 1, NULL, NULL, 1, 8),
+(18, 'game_diablo_3_pc', 'Diablo III', 9, '44.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201305/03/00128617770723____8__600x600.jpg', NULL, 'Descripción Diablo III', NULL, 0, NULL, NULL, 1, 20),
+(19, 'game_last_of_us_remasterizado_ps4', 'The Last Of Us Remasterizado', 1, '49.90', 6, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201404/25/00197578500973____1__600x600.jpg', '21.000', 'The Last Of Us Remasterizado', NULL, NULL, '2015-03-07 00:00:00', '2015-03-14 00:00:00', 1, 12),
+(20, 'game_bloodborne_ps4', 'Bloodborne', 1, '69.90', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/11/00197578502029____9__600x600.jpg', '21.000', 'Descripción Bloodborne', NULL, 1, NULL, NULL, 1, 16),
+(21, 'game_infamous_second_son_ps4', 'Infamous Second Son', 1, '40.00', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201402/14/00197578500486____12__600x600.jpg', '21.000', 'Descripción Infamous Second Son', NULL, 0, NULL, NULL, 1, 4),
+(22, 'game_batman_arkham_knight_ps4', 'Batman: Arkham Knight', 1, '69.90', 4, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201403/14/00197578500825____1__600x600.jpg', '21.000', 'Descripción Batman: Arkham Knight', NULL, 1, NULL, NULL, 1, 20),
+(23, 'game_mario_party_10_wii_u', 'Mario Party 10', 6, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201502/25/00197577502491____1__600x600.jpg', '21.000', 'Descripción Mario Party 10', NULL, 1, NULL, NULL, 1, 15),
+(24, 'game_the_wind_waker_hd_wii_u', 'The Legend Of Zelda: The Wind Waker Hd', 6, '56.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201310/07/00197577501675____1__600x600.jpg', '21.000', 'Descripción The Legend Of Zelda: The Wind Waker Hd', NULL, 1, NULL, NULL, 1, 5),
+(26, 'game_super_smash_bros_wii_u', 'Super Smash Bros', 6, '59.90', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/22/00197577502400____3__600x600.jpg', '21.000', 'Descripción Super Smash Bros', NULL, 1, NULL, NULL, 1, 6),
+(28, 'game_super_mario_3d_world_wii_u', 'Super Mario 3d World', 6, '59.90', 5, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201311/20/00197577501725____3__600x600.jpg', '21.000', 'Descripción Super Mario 3d World', NULL, 0, NULL, NULL, 1, 15),
+(29, 'game_captain_toad_treasure_tracker_wii_u', 'Captain Toad: Treasure Tracker', 6, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/20/00197577502442____1__600x600.jpg', '21.000', 'Descripción Captain Toad: Treasure Tracker', NULL, 0, NULL, NULL, 1, 7),
+(30, 'game_wii_party_u_wii_u', 'Wii Party U', 6, '49.90', 6, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/15/00197577502376____1__600x600.jpg', '21.000', 'Descripción Wii Party U', NULL, 0, NULL, NULL, 1, 6),
+(31, 'game_just_dance_2014_wii_u', 'Just Dance 2014', 6, '29.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197577501774____1__600x600.jpg', '21.000', 'Descripción Just Dance 2014', NULL, 1, NULL, NULL, 1, 6),
+(32, 'game_disney_epic_mickey_2_wii_u', 'Disney Epic Mickey 2', 6, '59.90', 25, 'http://sgfm.elcorteingles.es/SGFM/00/79/2/97577500792/97577500792000g01011.jpg', '21.000', 'Descripción Disney Epic Mickey 2: El Retorno De Dos Héroes', NULL, 0, '2015-03-07 09:00:00', '2015-03-14 08:00:00', 1, 20),
+(33, 'game_monster_hunter_4_ultimate_3ds', 'Monster Hunter 4: Ultimate', 7, '46.90', 6, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201501/21/00197571529623____1__600x600.jpg', '21.000', 'Descripción Monster Hunter 4: Ultimate', NULL, 1, NULL, NULL, 1, NULL),
+(34, 'game_big_hero_6_3ds', 'Big Hero 6: Batalla En La Bahía', 7, '39.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201412/16/00197571529490____1__600x600.jpg', '21.000', 'Descripción Big Hero 6: Batalla En La Bahía', NULL, 1, NULL, NULL, 1, 12),
+(35, 'game_bob_esponja_el_heroe_3ds', 'Bob Esponja, El Héroe', 7, '29.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201501/15/00197571529615____1__600x600.jpg', '21.000', 'Descripción Bob Esponja, El Héroe', NULL, 0, NULL, NULL, 1, 12),
+(36, 'game_universo_en_peligro_3ds', 'Lego Marvel Super Heroes: Universo En Peligro', 7, '20.90', 14, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201307/23/00197571527817____2__600x600.jpg', '21.000', 'Descripción Lego Marvel Super Heroes: Universo En Peligro', NULL, 1, NULL, NULL, 1, 6),
+(37, 'game_tomodachi_life_3ds', 'Tomodachi Life', 7, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201405/14/00197571528864____1__600x600.jpg', '21.000', 'Descripción Tomodachi Life', NULL, 1, NULL, NULL, 1, 9),
+(38, 'game_minecraft_vita_edition_ps_vita', 'Minecraft Playstation Vita Edition', 8, '20.90', 14, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197576502161____1__600x600.jpg', '21.000', 'Descripción Minecraft Playstation Vita Edition', NULL, 1, NULL, NULL, 1, 16),
+(39, 'game_invizimals_la_resistencia_ps_vita', 'Invizimals: La Resistencia', 8, '30.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201407/09/00197576502211____1__600x600.jpg', '21.000', 'Descripción Invizimals: La Resistencia', NULL, 1, NULL, NULL, 1, 14),
+(40, 'game_dynasty_warriors_8_ps_vita', 'Dynasty Warriors 8 Xtreme Legends Complete Ed', 8, '39.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201402/27/00197576501916____1__600x600.jpg', '21.000', 'Descripción Dynasty Warriors 8 Xtreme Legends Complete Edition', NULL, 0, NULL, NULL, 1, 12),
+(41, 'game_the_muppets_ps_vita', 'The Muppets Aventuras De Película', 8, '29.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/06/00197576502344____1__600x600.jpg', '21.000', 'Descripción The Muppets Aventuras De Película', NULL, 1, NULL, NULL, 1, 11),
+(42, 'game_lego_batman_3_ps_vita', 'Lego Batman 3: Más Allá De Gotham', 8, '42.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201409/26/00197576502153____8__600x600.jpg', '21.000', 'Descripción Lego Batman 3: Más Allá De Gotham', NULL, 0, NULL, NULL, 1, 16),
+(43, 'game_undead_and_undressed_ps_vita', 'Akiba''S Trip: Undead & Undressed', 8, '41.90', 7, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201410/14/00197576502286____1__600x600.jpg', '21.000', 'Descripción Akiba''S Trip: Undead & Undressed', NULL, 0, '2015-03-07 08:00:00', '2015-03-14 00:00:00', 1, 12),
+(44, 'game_battle_of_z_ps_vita', 'Dragon Ball Z: Battle Of Z', 8, '39.90', 8, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA01/201309/26/00197576501668____1__600x600.jpg', '21.000', 'Descripción Dragon Ball Z: Battle Of Z', NULL, 1, NULL, NULL, 1, 10),
+(45, 'game_pets_ps_vita', 'Playstation Pets', 8, '30.90', 10, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/03/00197576502112____1__600x600.jpg', '21.000', 'Descripción Playstation Pets', NULL, 1, NULL, NULL, 1, 30);
 
 -- --------------------------------------------------------
 
@@ -307,7 +308,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `linea_pedido`
 --

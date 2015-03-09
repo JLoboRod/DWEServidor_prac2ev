@@ -81,6 +81,13 @@ class Clientes_model extends CI_Model {
         //$query = $this->db->get_where('cliente', $datos);
         return $query->result_array();
     }
+
+    function buscar_cliente_por_usuario($user){
+        $this->db->where('usuario', $user);
+        $query = $this->db->get('cliente');
+
+        return $query->row_array();
+    }
 }
 
 

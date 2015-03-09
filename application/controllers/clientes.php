@@ -32,8 +32,12 @@ class Clientes extends My_Controller {
             {       
                 //Añade usuario a la session
                 $this->session->set_userdata('usuario', $usuario);
-                
-                redirect(base_url('index.php'));                
+                if(!$this->session->userdata('comprar')){
+                    redirect(site_url());        
+                }
+                else{
+                    redirect(site_url('principal/mostrar_carrito'));
+                }        
             }
             else
             {
@@ -54,12 +58,15 @@ class Clientes extends My_Controller {
             'usuario'   => form_error('usuario')? 'has-error':'',
             'password'  => form_error('password')? 'has-error':''
             );
-
+            $mensaje = $this->load->view('mensaje', array(
+                    'mensaje' => $this->session->flashdata('comprar')
+                ), TRUE);
+            
             $formulario = $this->load->view('formulario_acceso', array(
                 'clase_campo_form' => $clases_form
                 ), TRUE);
             
-            $this->plantilla($formulario);
+            $this->plantilla($mensaje.$formulario);
         }
     }
 

@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <?php if(isset($categorias)):?>
                         <?php foreach($categorias as $categoria):?>
-                            <li><a href="<?=urldecode(base_url('index.php/principal/mostrar_productos_categoria/'.$categoria['nombre']))?>"><?=$categoria['nombre']?></a></li>
+                            <li><a href="<?=urldecode(site_url('principal/mostrar_categoria/'.$categoria['nombre']))?>"><?=$categoria['nombre']?></a></li>
                         <?php endforeach;?>
                         <?php endif;?>
                     </ul>
@@ -38,9 +38,9 @@
                 </div>        
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="">
+                <li><a href="<?=site_url('principal/mostrar_carrito')?>">
                     <span class="glyphicon glyphicon-shopping-cart"></span>
-                    <span class="badge cod-envio pull-right">2</span>
+                    <span class="badge cod-envio pull-right"><?=$this->cart->total_items()?></span>
                 </a>
 
             </li>
