@@ -315,23 +315,37 @@ class Clientes extends My_Controller {
             }   
         }
         else{
-                 //Esto lo hacemos para dar clases Bootstrap a los 
-                //campos del formulario según haya error o no
-        $clases_form = array(
+                     //Esto lo hacemos para dar clases Bootstrap a los 
+                    //campos del formulario según haya error o no
+            $clases_form = array(
 
-            'email'     => form_error('email')? 'has-error':''
+                'email'     => form_error('email')? 'has-error':''
 
-            );
-        $formulario = $this->load->view('formulario_res_password', array(
-            'clase_campo_form' => $clases_form,
-            ), TRUE);
+                );
+            $formulario = $this->load->view('formulario_res_password', array(
+                'clase_campo_form' => $clases_form,
+                ), TRUE);
 
-        $this->plantilla($formulario);
+            $this->plantilla($formulario);
+        }
     }
 
-}
+    function listar_pedidos(){
+        $cliente = $this->clientes_model->buscar_cliente_por_usuario($this->session->userdata('usuario'));
+        
+        $lista_pedidos = $this->pedidos_model->pedidos_usuario($cliente['id']);
 
+        foreach ($lista_pedidos as $i=>$pedido) {
+            $lista_pedidos[$i]['provincia'] = $this->provincias_model->nombre_provincia($pedido['provincia']);
+        }
+        
+        $vista_pedidos = $this->load->view('lista_pedidos', array(
+            'pedidos' => $lista_pedidos
+            ), TRUE);
 
+        $this->plantilla($vista_pedidos);
+
+    }
 
     /**
      * Genera un password de 10 caracteres aleatorios

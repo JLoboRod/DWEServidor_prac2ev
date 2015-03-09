@@ -43,6 +43,22 @@ class Pedidos_model extends CI_Model {
         $this->db->insert('pedido', $datos);
     }
     
+    function pedidos_usuario($id){
+       $this->db->where(array(
+            'cliente_id' => $id
+            ));
+
+        return $this->db->get('pedido')->result_array();
+    }
+
+    function esta_pendiente($id){
+        $this->db->where(array(
+            'id'     => $id,
+            'estado' => 'P'
+            ));
+
+        return $this->db->get('pedido')->result_array()!=NULL;
+    }
     
 }
 
