@@ -10,7 +10,7 @@ class Lineas_pedido_model extends CI_Model {
      * Lista las lineas de pedidos
      * @return type
      */
-    function listar_linea_pedidos(){
+    function listar_linea_pedido(){
         $query = $this->db->get('linea_pedido');
         return $query->result_array();
     }
@@ -21,9 +21,9 @@ class Lineas_pedido_model extends CI_Model {
      * @param type $datos
      * @return type
      */
-    function buscar_linea_pedidos($datos){
+    function buscar_linea_pedido($datos){
         $this->db->where($datos);
-        $query = $this->db->get('linea_linea_pedido');
+        $query = $this->db->get('linea_pedido');
         return $query->result_array();
     }
     

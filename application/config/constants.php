@@ -39,6 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 //Mis constantes
 define('MAX_POR_PAG', 3);
+define("RUTA_PDF", APPPATH."../pdf/");
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

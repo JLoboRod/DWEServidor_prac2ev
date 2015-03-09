@@ -31,7 +31,7 @@
 
                       </div>
                       <div class="separator clear-left">
-                        <form action="<?=site_url('principal/agregar_producto')?>" method="post">
+                        <form action="<?=site_url('principal/agregar_producto/'.$producto['id'])?>" method="post">
                           <input type="hidden" name="id_producto" value="<?=$producto['id']?>"/>
                           <input type="hidden" name="descuento" value="<?=$producto['descuento']?>"/>
                           <p>

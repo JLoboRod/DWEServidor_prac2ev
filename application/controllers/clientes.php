@@ -23,6 +23,9 @@ class Clientes extends My_Controller {
         $this->form_validation->set_rules('usuario', 'Usuario', 'required|min_length[3]|max_length[45]|trim|xss_clean');
         $this->form_validation->set_rules('password', 'Contraseña', 'trim|required|md5');
         
+
+
+
         if ($this->form_validation->run() == TRUE)
         {
             $usuario = $this->input->post('usuario');
@@ -30,6 +33,11 @@ class Clientes extends My_Controller {
 
             if($this->login_correcto($usuario, $password))
             {       
+                
+                if($this->esta_de_baja($usuario)){
+                    $confirmacion_alta = $this->load->view('confirmacion_alta', 0, TRUE);
+                    $this->plantilla($confirmacion_alta);
+                }
                 //Añade usuario a la session
                 $this->session->set_userdata('usuario', $usuario);
                 if(!$this->session->userdata('comprar')){
@@ -59,8 +67,10 @@ class Clientes extends My_Controller {
             'password'  => form_error('password')? 'has-error':''
             );
             $mensaje = $this->load->view('mensaje', array(
-                    'mensaje' => $this->session->flashdata('comprar')
+                    'mensaje' => $this->session->userdata('comprar')
                 ), TRUE);
+
+            $this->session->unset_userdata('comprar');
             
             $formulario = $this->load->view('formulario_acceso', array(
                 'clase_campo_form' => $clases_form
@@ -160,7 +170,9 @@ class Clientes extends My_Controller {
             
             $this->plantilla($formulario);
         }
+    }
 
+    function dar_de_alta($usuario){
 
     }
 
@@ -232,8 +244,15 @@ class Clientes extends My_Controller {
     function login_correcto($user, $pass){
         return count($this->clientes_model->buscar_clientes(array(
             'usuario' => $user,
-            'password' => $pass 
+            'password' => $pass
             )))>0;
+    }
+
+    function esta_de_baja($user){
+        return $this->clientes_model->buscar_clientes(array(
+            'usuario' => $user,
+            'activo'  => '0'
+            ));
     }
     
 

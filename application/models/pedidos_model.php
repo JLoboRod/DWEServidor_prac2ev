@@ -26,6 +26,14 @@ class Pedidos_model extends CI_Model {
         $query = $this->db->get('pedido');
         return $query->result_array();
     }
+
+    function get_pedido($id){
+        $this->db->where(array(
+            'id' => $id
+            ));
+
+        return $this->db->get('pedido')->row_array();
+    }
     
     /**
      * Crea un nuevo pedido

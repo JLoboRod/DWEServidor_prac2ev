@@ -6,6 +6,7 @@ class Principal extends My_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('my_pdf');
     }
     
 
@@ -76,15 +77,15 @@ class Principal extends My_Controller {
         if($this->input->post('busqueda')){
             $productos = $this->productos_model->buscar_productos(array('nombre' => $this->input->post('busqueda')));
             if($productos){
-               $productos = $this->nombrar_categorias($productos);
+             $productos = $this->nombrar_categorias($productos);
 
-               $lista = $this->load->view('lista_productos', array(
+             $lista = $this->load->view('lista_productos', array(
                 'productos' => $productos
                 ), TRUE);
 
-               $this->plantilla($lista); 
-           }
-           else{
+             $this->plantilla($lista); 
+         }
+         else{
             $this->plantilla($this->load->view('mensaje', array(
                 'mensaje' => 'No se encontraron resultados'
                 ), TRUE));
@@ -168,6 +169,7 @@ class Principal extends My_Controller {
     public function agregar_producto()
     {
         $id_producto = $this->input->post('id_producto');
+        var_dump($this->input->post('id_producto'));
         $producto = $this->productos_model->get_producto($id_producto);
         $cantidad =  $this->input->post('cantidad');
         $carrito = $this->cart->contents();
@@ -202,6 +204,7 @@ class Principal extends My_Controller {
      * @return [type] [description]
      */
     public function procesar_compra(){
+        
         if(!$this->session->userdata('usuario')){
             $this->session->set_flashdata('comprar', 'Debe loguearse para continuar con el proceso de compra');
             redirect(site_url('clientes/acceder'));
@@ -254,14 +257,133 @@ class Principal extends My_Controller {
                 
                 $this->cart->destroy(); //Limpiamos el carrito
                 //redirect(BASEURL.'index.php/pedido/factura/'.$idPedido);
-            }
-            
-            
+                $this->generar_factura($id_pedido);
+                if($this->mandar_mail_pedido($id_pedido)){
+                    $this->session->set_flashdata('correo_exito','Su pedido realizado correctamente. Se envió la factura a su correo.');
+
+                }
+                else{
+                    $this->session->set_flashdata('correo_error','Hubo algún error.');
+                }
+                redirect(site_url());
+            }   
         }
+
     }
 
-    private function crear_factura(){
-        $this->plantilla($mensaje);
+    
+    /**
+     * Manda un email con el detalle el pedido
+     * @param  [type] $id_pedido [description]
+     * @return [type]            [description]
+     */
+    public function mandar_mail_pedido($id_pedido){
+        //Buscamos el pedido
+        $pedido=$this->pedidos_model->get_pedido($id_pedido);
+        
+        // Utilizando smtp
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.iessansebastian.com';
+        $config['smtp_user'] = 'aula4@iessansebastian.com';
+        $config['smtp_pass'] = 'daw2alumno';
+
+        $this->email->initialize($config);
+
+        $this->email->from('jloborod@gmail.com', 'Prueba Automática desde CI');
+        $this->email->to($pedido['email']);
+        $this->email->cc('jloborod@gmail.com');
+        $this->email->subject('Factura Pedido '.$id_pedido);
+        $this->email->message('Gracias por su compra.');
+        if(file_exists(RUTA_PDF.'fact_'.$id_pedido.'.pdf')){
+            $this->email->attach(RUTA_PDF.'fact_'.$id_pedido.'.pdf');
+            return $this->email->send();
+        }
+        else{
+            $this->session->set_flashdata('factura', 'No se encuentra la factura');
+        }
+        
+    }
+
+    /**
+     * Genera una factura en formato pdf de un
+     * pedido concreto
+     * @param  [type] $idPedido [description]
+     * @param  [type] $accion   [description]
+     * @return [type]           [description]
+     */
+    public function generar_factura($id_pedido)
+    {
+        //Buscamos el pedido
+        $pedido=$this->pedidos_model->get_pedido($id_pedido);
+
+        //Codificamos los campos a utf-8
+        foreach ($pedido as $clave => $valor) {
+            $pedido[$clave] = utf8_decode($valor);
+        }
+
+        $linea_pedido = $this->lineas_pedido_model->buscar_linea_pedido(array(
+            'pedido_id' => $pedido['id']
+            ));
+
+
+
+        $this->pdf= new My_pdf();
+        $this->pdf->AddPage();
+        $this->pdf->AliasNbPages();
+        
+        $this->pdf->SetTitle("Factura");
+        $this->pdf->SetLeftMargin(15);
+        $this->pdf->SetRightMargin(15);
+        $this->pdf->SetFillColor(200,200,200);
+
+        // Se define el formato de fuente: Arial, negritas, tamaño 9
+        $this->pdf->SetFont('Arial', 'B', 9);
+        
+
+        $this->pdf->Cell(30);
+        $this->pdf->Cell(120,10,'DATOS DEL PEDIDO',0,0,'C');
+        $this->pdf->Ln(12);
+
+
+        /*
+         * $this->pdf->Cell(Ancho, Alto,texto,borde,posición,alineación,relleno);
+         */
+        
+        foreach ($pedido as $key => $value) {
+            $this->pdf->Cell(30);
+            $this->pdf->Cell(38,7, $key,'TBL',0,'L','1');
+            $this->pdf->Cell(50,7, $value,'TBLR',0,'L','1');
+            $this->pdf->Ln(7);
+        }
+
+        $this->pdf->Ln(7);
+
+        $this->pdf->Cell(30);
+        $this->pdf->Cell(120,10,'DATOS LINEA DE PEDIDO',0,0,'C');
+        $this->pdf->Ln(12);
+
+        
+        foreach ($linea_pedido as $i => $linea) {
+            $linea_pedido[$i]['nombre_producto'] = utf8_decode($this->productos_model->get_producto($linea['producto_id'])['nombre']);
+        }
+        
+
+        foreach ($linea_pedido as $linea) {
+            foreach ($linea as $key => $value) {
+                $this->pdf->Cell(30);
+                $this->pdf->Cell(38,7, $key,'TBL',0,'L','1');
+                $this->pdf->Cell(50,7, $value,'TBLR',0,'L','1');
+                $this->pdf->Ln(7);
+            }
+
+            $this->pdf->Ln(7);
+        }
+
+        
+        //Podemos mostrar con I, descargar con D, o guardar con F
+        //$this->pdf->Output($pedido['id'].".pdf", 'I');
+        //$this->pdf->Output("Lista de provincias.pdf", 'D');
+        $this->pdf->Output(APPPATH."../pdf/fact_".$pedido['id'].".pdf", 'F');
     }
 
     /**
