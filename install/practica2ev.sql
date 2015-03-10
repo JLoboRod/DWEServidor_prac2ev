@@ -188,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `producto` (
 --
 -- Volcado de datos para la tabla `producto`
 --
-
 INSERT INTO `producto` (`id`, `cod_interno`, `nombre`, `categoria_id`, `precio_venta`, `descuento`, `imagen`, `iva`, `descripcion`, `anuncio`, `destacado`, `fecha_ini_dest`, `fecha_fin_dest`, `visible`, `stock`) VALUES
 (1, 'game_dying_light_ps4', 'Dying Light', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201408/21/00197578501708____1__600x600.jpg', '21.000', 'Descripción Dying Light', NULL, 0, NULL, NULL, 1, 10),
 (2, 'game_far_cry_4_ps4', 'Far Cry 4', 1, '66.00', NULL, 'http://sgfm.elcorteingles.es/SGFM/dctm/MEDIA02/CONTENIDOS/201406/10/00197578501179____1__600x600.jpg', '21.000', 'Descripción Far Cry', NULL, 0, NULL, NULL, 1, 15),

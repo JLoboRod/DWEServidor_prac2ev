@@ -169,15 +169,17 @@ class Principal extends My_Controller {
     /**
      * Añade un producto al carrito
      */
-    public function agregar_producto()
+    public function agregar_producto($id)
     {
-        $id_producto = $this->input->post('id_producto');
-        var_dump($this->input->post('id_producto'));
+        var_dump($_POST);
+
+        //$id_producto = $this->input->post('id_producto');
+        $id_producto = intval($id);
         $producto = $this->productos_model->get_producto($id_producto);
         $cantidad =  $this->input->post('cantidad');
         $carrito = $this->cart->contents();
         foreach ($carrito as $item) {           //si el id del producto es igual que uno que ya
-            if ($item['id'] == $id_producto) {  //tengamos en la cesta le sumamos la cantidad
+            if ($item['id'] === $id_producto) {  //tengamos en la cesta le sumamos la cantidad
                 $cantidad+=$item['qty'];
                 break;
             }
